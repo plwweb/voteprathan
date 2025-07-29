@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตะกร้าสินค้าและการชำระเงิน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>T-Shirt Shop</h1>
+            <nav class="nav">
+                <a href="index.html">หน้าแรก</a>
+                <a href="cart.html">ตะกร้าสินค้า (<span id="cart-count">0</span>)</a>
+            </nav>
+        </header>
+
+        <h2>ตะกร้าสินค้าของคุณ</h2>
+        <div id="cart-items">
+            <p>กำลังโหลดข้อมูลตะกร้า...</p>
+        </div>
+        <div id="cart-total" class="cart-total">
+            ยอดรวม: 0 บาท
+        </div>
+        <button id="checkout-btn">ยืนยันการสั่งซื้อและชำระเงิน</button>
+
+        <div id="order-section" class="hidden">
+            <hr>
+            <h2>รายการสั่งซื้อของคุณ (อัปเดตเรียลไทม์)</h2>
+            <p><strong>รหัสสั่งซื้อ:</strong> <span id="order-id"></span></p>
+            <p><strong>สถานะ:</strong> <span id="order-status"></span></p>
+            <div id="qrcode-container">
+                <p>สแกน QR Code นี้เพื่อชำระเงินผ่าน PromptPay</p>
+                <div id="qrcode"></div>
+                <p style="color:red;">หลังจากชำระเงินแล้ว สถานะจะอัปเดตอัตโนมัติเมื่อเจ้าของร้านยืนยัน</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promptpay-qr@0.4.4/dist/promptpay-qr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script> <script src="app-cart.js"></script>
+</body>
+</html>
