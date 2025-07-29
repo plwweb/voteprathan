@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดสินค้า</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>T-Shirt Shop</h1>
+            <nav class="nav">
+                <a href="index.html">หน้าแรก</a>
+                <a href="cart.html">ตะกร้าสินค้า (<span id="cart-count">0</span>)</a>
+            </nav>
+        </header>
+        <div id="product-detail">
+            <p>กำลังโหลดข้อมูลสินค้า...</p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="app-product.js"></script>
+</body>
+</html>
