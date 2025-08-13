@@ -35,7 +35,7 @@
       .candidate-card .candidate-number { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin: 0 0 0.25rem 0; }
       .candidate-card .candidate-name { font-size: 1.2rem; font-weight: 600; margin: 0 0 0.75rem 0; color: var(--text-dark); }
       .candidate-card .candidate-policy { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
-      .candidate-card.selected { border-color: var(--primary-color); box-shadow: var(--shadow-lg); }
+      .candidate-card.selected { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
       .message { font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2rem; }
       .message.success { color: var(--success-color); font-weight: 500; }
       .message.error { color: var(--danger-color); font-weight: 500; }
@@ -88,11 +88,14 @@
             </div>
     </div>
     <footer class="footer">
-        <p>&copy;2025 Student Council of Phu Luang Witthaya School <a href="?page=admin">Admin Login</a></p>
+        <p>&copy;2025 Student Council of Phu Luang Witthaya School <a href="?page=admin" style="text-decoration: none;">Admin Login</a></p>
     </footer>
 
     <script>
-        const WEB_APP_URL = 'YOUR_WEB_APP_URL_HERE'; // <-- PASTE YOUR URL HERE
+        // ⭐⭐⭐ แก้ไข URL นี้ให้เป็นของคุณเอง ⭐⭐⭐
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7-CZI328W6sWRbv-vTHykVzpbloXPv5vtrhfwJFFQA5P6rgCl5eZvWpv0RZETlRjB/exec';
+        // ⭐⭐⭐ ----------------------------- ⭐⭐⭐
+        
         const voteForm = document.getElementById('voteForm');
         const candidateOptionsDiv = document.getElementById('candidate-options');
         const studentIdInput = document.getElementById('studentId');
