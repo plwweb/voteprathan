@@ -8,7 +8,26 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-      <?!= include('style.css'); ?>
+      /* === MODERN STYLESHEET FOR ELECTION WEB APP === */
+      :root { --primary-color: #3B82F6; --primary-hover: #2563EB; --secondary-color: #6B7280; --success-color: #10B981; --danger-color: #EF4444; --warning-color: #F59E0B; --light-gray: #F3F4F6; --border-color: #D1D5DB; --text-dark: #1F2937; --text-light: #4B5563; --white: #FFFFFF; --font-family: 'Kanit', sans-serif; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); --border-radius: 0.75rem; }
+      body { font-family: var(--font-family); background-color: var(--light-gray); color: var(--text-dark); margin: 0; line-height: 1.6; }
+      .container { max-width: 900px; margin: 2rem auto; padding: 2rem; background-color: var(--white); border-radius: var(--border-radius); box-shadow: var(--shadow-lg); }
+      header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+      header .logo { max-width: 80px; margin-bottom: 1rem; }
+      header h1 { color: var(--primary-color); font-weight: 700; font-size: 2.25rem; margin: 0; }
+      .form-section, .admin-section { margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); background-color: var(--white); }
+      label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-light); }
+      input[type="text"], input[type="password"], input[type="number"], input[type="datetime-local"], textarea, select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; box-sizing: border-box; font-family: var(--font-family); font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
+      input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+      button { background-color: var(--primary-color); color: white; padding: 0.8rem 1.5rem; margin-top: 1rem; border: none; border-radius: 0.5rem; cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: 500; transition: all 0.2s ease-in-out; box-shadow: var(--shadow-sm); }
+      button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+      button.danger { background-color: var(--danger-color); }
+      button.danger:hover:not(:disabled) { background-color: #DC2626; }
+      .action-button { width: auto; padding: 0.6rem 1rem; font-size: 0.9rem; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+      .data-table-container { overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.95rem; }
+      th, td { border: 1px solid var(--border-color); padding: 0.75rem 1rem; text-align: left; vertical-align: middle; }
+      th { background-color: var(--light-gray); font-weight: 600; }
       .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
       .modal-content { background-color: #fefefe; padding: 2rem; border-radius: var(--border-radius); width: 90%; max-width: 500px; box-shadow: var(--shadow-lg); animation: fadeIn 0.3s; }
       @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -46,12 +65,14 @@
         <div id="login-section">
             <div class="admin-section">
                 <h2>เข้าสู่ระบบผู้ดูแล</h2>
-                <label for="adminUsername">Username:</label>
-                <input type="text" id="adminUsername" required>
-                <label for="adminPassword">Password:</label>
-                <input type="password" id="adminPassword" required>
-                <button type="button" id="loginButton">เข้าสู่ระบบ</button>
-                <p id="login-message" class="message"></p>
+                <form onsubmit="return false;">
+                    <label for="adminUsername">Username:</label>
+                    <input type="text" id="adminUsername" required>
+                    <label for="adminPassword">Password:</label>
+                    <input type="password" id="adminPassword" required>
+                    <button type="button" id="loginButton">เข้าสู่ระบบ</button>
+                    <p id="login-message" class="message"></p>
+                </form>
             </div>
         </div>
 
@@ -133,8 +154,12 @@
             </div>
         </div>
     </div>
+    
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7-CZI328W6sWRbv-vTHykVzpbloXPv5vtrhfwJFFQA5P6rgCl5eZvWpv0RZETlRjB/exec'; // <-- You can paste your Web App URL here
+        // ⭐⭐⭐ แก้ไข URL นี้ให้เป็นของคุณเอง ⭐⭐⭐
+        const WEB_APP_URL = 'YOUR_WEB_APP_URL_HERE'; 
+        // ⭐⭐⭐ ----------------------------- ⭐⭐⭐
+
         let currentAdminUser = '';
         let allUsersData = [];
         let voteChartInstance = null;
@@ -180,7 +205,7 @@
         }
 
         async function loadAllAdminData() {
-            Swal.showLoading();
+            Swal.fire({ title: 'กำลังโหลดข้อมูล...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             await Promise.all([
                 loadAdminData(),
                 loadDashboardData(),
@@ -232,7 +257,7 @@
             adminAccountsTbody.innerHTML = '';
             if (result.status === 'success' && result.accounts.length > 0) {
                 result.accounts.forEach(account => {
-                    if(account[0] === currentAdminUser) return; // Don't show option to delete self
+                    if(account[0] === currentAdminUser) return;
                     const tr = document.createElement('tr');
                     tr.innerHTML = `<td>${account[0]}</td><td>${account[2] || ''}</td><td><button class="action-button danger delete-admin-button" data-username="${account[0]}">ลบ</button></td>`;
                     adminAccountsTbody.appendChild(tr);
@@ -276,7 +301,6 @@
         
         // --- Event Listeners ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if user is already logged in from a previous session
             const loggedInUser = sessionStorage.getItem('adminUser');
             if (loggedInUser) {
                 currentAdminUser = loggedInUser;
@@ -323,12 +347,11 @@
             if (result.status === 'success') { Swal.fire('สำเร็จ!', result.message, 'success'); loadVoteTime(); } else { Swal.fire('ผิดพลาด!', result.message, 'error'); }
         });
 
-        // Other Buttons...
         document.getElementById('closeVotingNowButton').addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"ต้องการปิดรับการลงคะแนนทันทีใช่ไหม?",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ปิดทันที!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('closeVotingNow');if(res.status==='success'){Swal.fire('สำเร็จ!','ปิดการลงคะแนนแล้ว','success');loadVoteTime();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
         resetVotesButton.addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"คะแนนโหวตทั้งหมดจะถูกรีเซ็ตเป็น 0!",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, รีเซ็ต!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('resetVotes');if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
-        clearUsersButton.addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"ข้อมูลสถานะการลงคะแนนของนักเรียนทุกคนจะถูกล้าง!",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ล้างข้อมูล!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('clearUsers');if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
-        document.getElementById('exportUsersPdfButton').addEventListener('click', async () => { Swal.fire({title:'กำลังสร้าง PDF...',didOpen:()=>Swal.showLoading()}); const res=await callApi('exportPdf',{dataType:'users'}); if(res.status==='success'){Swal.update({title:'สร้างไฟล์สำเร็จ!',html:`<a href="${res.pdfUrl}" target="_blank">คลิกเพื่อเปิด PDF</a>`,icon:'success',showConfirmButton:true});}else{Swal.fire('ผิดพลาด!',res.message,'error');} });
-        document.getElementById('exportVotesPdfButton').addEventListener('click', async () => { Swal.fire({title:'กำลังสร้าง PDF...',didOpen:()=>Swal.showLoading()}); const res=await callApi('exportPdf',{dataType:'votes'}); if(res.status==='success'){Swal.update({title:'สร้างไฟล์สำเร็จ!',html:`<a href="${res.pdfUrl}" target="_blank">คลิกเพื่อเปิด PDF</a>`,icon:'success',showConfirmButton:true});}else{Swal.fire('ผิดพลาด!',res.message,'error');} });
+        clearUsersButton.addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"ข้อมูลสถานะการลงคะแนนของนักเรียนทุกคนจะถูกล้าง!",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ล้างข้อมูล!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('clearUsers');if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAllAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
+        document.getElementById('exportUsersPdfButton').addEventListener('click', async () => { Swal.fire({title:'กำลังสร้าง PDF...',didOpen:()=>Swal.showLoading()}); const res=await callApi('exportPdf',{dataType:'users'}); if(res.status==='success'){Swal.update({title:'สร้างไฟล์สำเร็จ!',html:`<a href="${res.pdfUrl}" target="_blank" rel="noopener noreferrer">คลิกเพื่อเปิด PDF</a>`,icon:'success',showConfirmButton:true});}else{Swal.fire('ผิดพลาด!',res.message,'error');} });
+        document.getElementById('exportVotesPdfButton').addEventListener('click', async () => { Swal.fire({title:'กำลังสร้าง PDF...',didOpen:()=>Swal.showLoading()}); const res=await callApi('exportPdf',{dataType:'votes'}); if(res.status==='success'){Swal.update({title:'สร้างไฟล์สำเร็จ!',html:`<a href="${res.pdfUrl}" target="_blank" rel="noopener noreferrer">คลิกเพื่อเปิด PDF</a>`,icon:'success',showConfirmButton:true});}else{Swal.fire('ผิดพลาด!',res.message,'error');} });
         
         addAdminButton.addEventListener('click', async () => {
             const username = document.getElementById('newAdminUsername').value.trim(); const password = document.getElementById('newAdminPassword').value.trim(); const fullName = document.getElementById('newAdminFullName').value.trim();
@@ -341,14 +364,9 @@
         document.getElementById('admin-panel').addEventListener('click', async (event) => {
             const target = event.target;
             const row = target.closest('tr');
+            if (!row) return;
 
-            // Delete Candidate
-            if (target.classList.contains('delete-button') && row) {
-                const number = row.dataset.candidateNumber;
-                Swal.fire({title:'ยืนยัน?',text:`ต้องการลบผู้สมัครเบอร์ '${number}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteCandidate',{candidateNumber:number});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
-            }
-            // Edit Candidate
-            if (target.classList.contains('edit-button') && row) {
+            if (target.classList.contains('edit-button')) {
                 document.getElementById('editCandidateNumberHidden').value = row.dataset.candidateNumber;
                 document.getElementById('editCandidateNumberDisplay').value = row.dataset.candidateNumber;
                 document.getElementById('editCandidateName').value = row.dataset.candidateName;
@@ -356,13 +374,15 @@
                 document.getElementById('editCandidatePolicy').value = row.dataset.policy;
                 editCandidateModal.style.display = 'flex';
             }
-            // Delete User
-            if (target.classList.contains('delete-user-button') && row) {
+            if (target.classList.contains('delete-button')) {
+                const number = row.dataset.candidateNumber;
+                Swal.fire({title:'ยืนยัน?',text:`ต้องการลบผู้สมัครเบอร์ '${number}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteCandidate',{candidateNumber:number});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
+            }
+            if (target.classList.contains('delete-user-button')) {
                 const id = row.dataset.studentId;
                 Swal.fire({title:'ยืนยัน?',text:`ต้องการลบข้อมูลการโหวตของนักเรียนรหัส '${id}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteUser',{studentId:id});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAllAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
             }
-            // Delete Admin
-             if (target.classList.contains('delete-admin-button') && row) {
+            if (target.classList.contains('delete-admin-button')) {
                 const username = target.dataset.username;
                 Swal.fire({title:'ยืนยัน?',text:`ต้องการลบบัญชีผู้ดูแล '${username}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteAdminAccount',{username:username});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminAccounts();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
             }
@@ -374,7 +394,7 @@
             const result = await callApi('editCandidate', { candidateNumber: number, candidateName: name, imageUrl: imageUrl, policy: policy });
             if (result.status === 'success') {
                 loadAdminData();
-                setTimeout(() => { editCandidateModal.style.display = 'none'; }, 1000);
+                setTimeout(() => { editCandidateModal.style.display = 'none'; }, 500);
             }
             saveCandidateButton.disabled = false; saveCandidateButton.textContent = 'บันทึกการเปลี่ยนแปลง';
         });
