@@ -1,404 +1,157 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - ระบบเลือกตั้งประธานนักเรียน</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-      /* === MODERN STYLESHEET FOR ELECTION WEB APP === */
-      :root { --primary-color: #3B82F6; --primary-hover: #2563EB; --secondary-color: #6B7280; --success-color: #10B981; --danger-color: #EF4444; --warning-color: #F59E0B; --light-gray: #F3F4F6; --border-color: #D1D5DB; --text-dark: #1F2937; --text-light: #4B5563; --white: #FFFFFF; --font-family: 'Kanit', sans-serif; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); --border-radius: 0.75rem; }
-      body { font-family: var(--font-family); background-color: var(--light-gray); color: var(--text-dark); margin: 0; line-height: 1.6; }
-      .container { max-width: 900px; margin: 2rem auto; padding: 2rem; background-color: var(--white); border-radius: var(--border-radius); box-shadow: var(--shadow-lg); }
-      header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
-      header .logo { max-width: 80px; margin-bottom: 1rem; }
-      header h1 { color: var(--primary-color); font-weight: 700; font-size: 2.25rem; margin: 0; }
-      .form-section, .admin-section { margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); background-color: var(--white); }
-      label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-light); }
-      input[type="text"], input[type="password"], input[type="number"], input[type="datetime-local"], textarea, select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; box-sizing: border-box; font-family: var(--font-family); font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
-      input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
-      button { background-color: var(--primary-color); color: white; padding: 0.8rem 1.5rem; margin-top: 1rem; border: none; border-radius: 0.5rem; cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: 500; transition: all 0.2s ease-in-out; box-shadow: var(--shadow-sm); }
-      button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-      button.danger { background-color: var(--danger-color); }
-      button.danger:hover:not(:disabled) { background-color: #DC2626; }
-      .action-button { width: auto; padding: 0.6rem 1rem; font-size: 0.9rem; margin-right: 0.5rem; margin-bottom: 0.5rem; }
-      .data-table-container { overflow-x: auto; }
-      table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.95rem; }
-      th, td { border: 1px solid var(--border-color); padding: 0.75rem 1rem; text-align: left; vertical-align: middle; }
-      th { background-color: var(--light-gray); font-weight: 600; }
-      .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
-      .modal-content { background-color: #fefefe; padding: 2rem; border-radius: var(--border-radius); width: 90%; max-width: 500px; box-shadow: var(--shadow-lg); animation: fadeIn 0.3s; }
-      @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-      .close-button { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
-      .close-button:hover, .close-button:focus { color: black; text-decoration: none; cursor: pointer; }
-    </style>
+  <base target="_top">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Sarabun', sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+    .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    h1, h2 { color: #0056b3; }
+    .card { background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+    .login-form { text-align: center; }
+    input[type="text"], input[type="password"] { width: 80%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; text-align: center; }
+    .dashboard-grid .stat { background-color: #e9ecef; padding: 15px; border-radius: 8px; }
+    .stat h3 { margin: 0; color: #495057; }
+    .stat p { font-size: 2em; margin: 5px 0 0; font-weight: bold; }
+    .config-form { margin-top: 20px; }
+    .config-form label, .config-form input { display: block; margin-bottom: 10px; width: 100%; box-sizing: border-box; }
+  </style>
 </head>
 <body>
-    <div id="editCandidateModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="this.parentElement.parentElement.style.display='none'">&times;</span>
-            <h2>แก้ไขข้อมูลผู้สมัคร</h2>
-            <form id="editCandidateForm" onsubmit="return false;">
-                <input type="hidden" id="editCandidateNumberHidden">
-                <label for="editCandidateNumberDisplay">เบอร์ผู้สมัคร:</label>
-                <input type="text" id="editCandidateNumberDisplay" disabled>
-                <label for="editCandidateName">ชื่อผู้สมัคร:</label>
-                <input type="text" id="editCandidateName">
-                <label for="editCandidateImageUrl">URL รูปภาพ:</label>
-                <input type="text" id="editCandidateImageUrl">
-                <label for="editCandidatePolicy">นโยบาย:</label>
-                <textarea id="editCandidatePolicy"></textarea>
-                <button type="button" id="saveCandidateButton">บันทึกการเปลี่ยนแปลง</button>
-                <p id="edit-modal-message" class="message"></p>
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <header>
-            <img src="https://img5.pic.in.th/file/secure-sv1/IMG_60290ec6a71fd92a13d0.png" alt="โลโก้โรงเรียน" class="logo">
-            <h1>Admin Panel - ระบบเลือกตั้ง</h1>
-        </header>
-
-        <div id="login-section">
-            <div class="admin-section">
-                <h2>เข้าสู่ระบบผู้ดูแล</h2>
-                <form onsubmit="return false;">
-                    <label for="adminUsername">Username:</label>
-                    <input type="text" id="adminUsername" required>
-                    <label for="adminPassword">Password:</label>
-                    <input type="password" id="adminPassword" required>
-                    <button type="button" id="loginButton">เข้าสู่ระบบ</button>
-                    <p id="login-message" class="message"></p>
-                </form>
-            </div>
-        </div>
-
-        <div id="admin-panel" style="display: none;">
-            <h2 id="welcome-message"></h2>
-             <div class="admin-section">
-                <h3>Dashboard สรุปผล</h3>
-                <div id="dashboard-summary"><p>กำลังโหลดข้อมูลสรุป...</p></div>
-            </div>
-            <div class="admin-section">
-                <h3>จัดการข้อมูลผู้สมัคร</h3>
-                <label for="newCandidateNumber">เบอร์ผู้สมัคร (เช่น 1, 2):</label>
-                <input type="number" id="newCandidateNumber" placeholder="1" required>
-                <label for="newCandidateName">ชื่อ-สกุล ผู้สมัคร:</label>
-                <input type="text" id="newCandidateName" placeholder="นายใจดี มีเมตตา" required>
-                <label for="newCandidateImageUrl">URL รูปภาพผู้สมัคร:</label>
-                <input type="text" id="newCandidateImageUrl" placeholder="https://example.com/image.png">
-                <label for="newCandidatePolicy">นโยบาย:</label>
-                <textarea id="newCandidatePolicy" placeholder="นโยบายโดยย่อ..."></textarea>
-                <button type="button" id="addCandidateButton">เพิ่มผู้สมัครใหม่</button>
-            </div>
-            <div class="admin-section">
-                <h3>ตั้งเวลาเปิด-ปิดการลงคะแนน</h3>
-                <label for="voteStartTime">เวลาเริ่มต้น:</label>
-                <input type="datetime-local" id="voteStartTime">
-                <label for="voteEndTime">เวลาสิ้นสุด:</label>
-                <input type="datetime-local" id="voteEndTime">
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button type="button" id="setVoteTimeButton" class="action-button">ตั้งเวลา</button>
-                    <button type="button" id="closeVotingNowButton" class="action-button danger">ปิดลงคะแนนทันที</button>
-                </div>
-                <p id="current-vote-time" style="font-weight: bold; margin-top: 15px;"></p>
-            </div>
-            <div class="admin-section">
-                <h3>ข้อมูลผลการเลือกตั้งและผู้ลงคะแนน</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 20px;">
-                    <button type="button" id="refreshDataButton" class="action-button">รีเฟรชข้อมูล</button>
-                    <a href="?page=live" target="_blank" class="action-button" style="background-color: var(--success-color); color: white; text-decoration: none;">เปิดหน้าผลคะแนนสด</a>
-                    <button type="button" id="exportUsersPdfButton" class="action-button">ส่งออกรายชื่อผู้ลงคะแนน (.pdf)</button>
-                    <button type="button" id="exportVotesPdfButton" class="action-button">ส่งออกผลคะแนน (.pdf)</button>
-                </div>
-                
-                <h4>ผลคะแนนปัจจุบัน (ตาราง)</h4>
-                <div class="data-table-container">
-                    <table id="adminCandidatesTable">
-                        <thead><tr><th>เบอร์</th><th>ชื่อผู้สมัคร</th><th>คะแนน</th><th>รูปภาพ</th><th>นโยบาย</th><th>Actions</th></tr></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-
-                <h4>กราฟผลคะแนน</h4>
-                <div style="width: 100%; height: 400px; margin: 20px auto;"><canvas id="voteChart"></canvas></div>
-                
-                <h4>ข้อมูลผู้ใช้งานที่ลงคะแนนแล้ว</h4>
-                <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
-                    <label for="userSearchInput">ค้นหา:</label>
-                    <input type="text" id="userSearchInput" placeholder="รหัสนักเรียน/ชื่อ">
-                </div>
-                <div class="data-table-container">
-                    <table id="adminUsersTable">
-                         <thead><tr><th>รหัสนักเรียน</th><th>ชื่อ-สกุล</th><th>ชั้น</th><th>ห้อง</th><th>เวลา</th><th>เลือกเบอร์</th><th>Actions</th></tr></thead>
-                         <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-             <div class="admin-section">
-                <h3>เครื่องมือผู้ดูแล</h3>
-                <button type="button" id="resetVotesButton" class="action-button">รีเซ็ตคะแนนทั้งหมด</button>
-                <button type="button" id="clearUsersButton" class="action-button">ล้างข้อมูลผู้ลงคะแนนทั้งหมด</button>
-            </div>
-            <div class="admin-section">
-                <h3>จัดการบัญชีผู้ดูแล</h3>
-                <label for="newAdminUsername">Username ใหม่:</label> <input type="text" id="newAdminUsername" required>
-                <label for="newAdminPassword">Password ใหม่:</label> <input type="password" id="newAdminPassword" required>
-                <label for="newAdminFullName">ชื่อผู้ดูแล:</label> <input type="text" id="newAdminFullName" required>
-                <button type="button" id="addAdminButton">เพิ่มบัญชีผู้ดูแล</button>
-                <h4>บัญชีผู้ดูแลที่มีอยู่</h4>
-                <div class="data-table-container"><table id="adminAccountsTable"><thead><tr><th>Username</th><th>ชื่อผู้ดูแล</th><th>Actions</th></tr></thead><tbody></tbody></table></div>
-            </div>
-        </div>
+  <div class="container">
+    <div id="login-section">
+      <h1>Admin Login</h1>
+      <div class="card login-form">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div id="login-status" style="color:red; margin-top:10px;"></div>
+      </div>
     </div>
     
-    <script>
-        // ⭐⭐⭐ แก้ไข URL นี้ให้เป็นของคุณเอง ⭐⭐⭐
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7-CZI328W6sWRbv-vTHykVzpbloXPv5vtrhfwJFFQA5P6rgCl5eZvWpv0RZETlRjB/exec'; 
-        // ⭐⭐⭐ ----------------------------- ⭐⭐⭐
+    <div id="dashboard-section" style="display:none;">
+      <h1>Admin Dashboard</h1>
+      <div class="dashboard-grid">
+        <div class="card stat">
+          <h3>จำนวนนักเรียนทั้งหมด</h3>
+          <p id="total-students">...</p>
+        </div>
+        <div class="card stat">
+          <h3>จำนวนผู้โหวตแล้ว</h3>
+          <p id="voted-students">...</p>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 20px;">
+        <h2>ผลการโหวต</h2>
+        <canvas id="vote-chart"></canvas>
+      </div>
 
-        let currentAdminUser = '';
-        let allUsersData = [];
-        let voteChartInstance = null;
+      <div class="card config-form">
+        <h2>ตั้งค่าเวลาการโหวต</h2>
+        <label for="start-time">เวลาเริ่ม:</label>
+        <input type="datetime-local" id="start-time">
+        <label for="end-time">เวลาสิ้นสุด:</label>
+        <input type="datetime-local" id="end-time">
+        <button onclick="updateVoteTime()">บันทึกเวลา</button>
+      </div>
+      
+      <div class="card">
+        <h2>เครื่องมือ</h2>
+        <button onclick="resetVotes()">รีเซ็ตคะแนนโหวตทั้งหมด</button>
+      </div>
+    </div>
+  </div>
 
-        // --- Element Variables ---
-        const loginSection = document.getElementById('login-section');
-        const adminPanel = document.getElementById('admin-panel');
-        const loginButton = document.getElementById('loginButton');
-        const welcomeMessage = document.getElementById('welcome-message');
-        const dashboardSummaryDiv = document.getElementById('dashboard-summary');
-        const userSearchInput = document.getElementById('userSearchInput');
-        const refreshDataButton = document.getElementById('refreshDataButton');
-        const addCandidateButton = document.getElementById('addCandidateButton');
-        const setVoteTimeButton = document.getElementById('setVoteTimeButton');
-        const addAdminButton = document.getElementById('addAdminButton');
-        const resetVotesButton = document.getElementById('resetVotesButton');
-        const clearUsersButton = document.getElementById('clearUsersButton');
-        const editCandidateModal = document.getElementById('editCandidateModal');
-        const saveCandidateButton = document.getElementById('saveCandidateButton');
-        const adminCandidatesTbody = document.querySelector('#adminCandidatesTable tbody');
-        const adminUsersTbody = document.querySelector('#adminUsersTable tbody');
-        const adminAccountsTbody = document.querySelector('#adminAccountsTable tbody');
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    let myChart = null;
+    
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      google.script.run.withSuccessHandler(onLoginCheck).getAdminLogin();
+    }
 
-        // --- Core Functions ---
-        async function callApi(action, data = {}) {
-            if (currentAdminUser) { data.username = currentAdminUser; }
-            try {
-                const response = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action, ...data }), headers: {'Content-Type': 'application/json'} });
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return await response.json();
-            } catch (error) {
-                console.error('Error calling API:', error);
-                Swal.fire('เกิดข้อผิดพลาด', 'การเชื่อมต่อเซิร์ฟเวอร์ล้มเหลว: ' + error.message, 'error');
-                return { status: 'error', message: 'API call failed' };
+    function onLoginCheck(creds) {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username === creds.username && password === creds.password) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('dashboard-section').style.display = 'block';
+        loadDashboardData();
+      } else {
+        document.getElementById('login-status').innerText = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      }
+    }
+
+    function loadDashboardData() {
+      google.script.run.withSuccessHandler(onDashboardDataLoaded).getAdminDashboardData();
+      google.script.run.withSuccessHandler(onVoteTimeLoaded).getVoteTime();
+    }
+
+    function onDashboardDataLoaded(data) {
+      document.getElementById('total-students').innerText = data.totalStudents;
+      document.getElementById('voted-students').innerText = data.votedStudents;
+      renderChart(data.voteResults);
+    }
+    
+    function onVoteTimeLoaded(timeConfig) {
+      document.getElementById('start-time').value = timeConfig.startTime.substring(0, 16);
+      document.getElementById('end-time').value = timeConfig.endTime.substring(0, 16);
+    }
+
+    function renderChart(results) {
+      const ctx = document.getElementById('vote-chart').getContext('2d');
+      const labels = results.map(res => res.candidate);
+      const votes = results.map(res => res.votes);
+      
+      if (myChart) {
+        myChart.destroy();
+      }
+
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'คะแนนโหวต',
+            data: votes,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
             }
+          }
         }
+      });
+    }
+    
+    function updateVoteTime() {
+      const startTime = document.getElementById('start-time').value;
+      const endTime = document.getElementById('end-time').value;
+      google.script.run.withSuccessHandler(alert).updateVoteTime(startTime, endTime);
+    }
 
-        function showAdminPanel(adminName) {
-            loginSection.style.display = 'none';
-            adminPanel.style.display = 'block';
-            welcomeMessage.textContent = `ยินดีต้อนรับคุณ ${adminName}!`;
-            loadAllAdminData();
-        }
+    function resetVotes() {
+      if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตคะแนนโหวตทั้งหมด?")) {
+        google.script.run.withSuccessHandler(onResetComplete).resetVotes();
+      }
+    }
 
-        async function loadAllAdminData() {
-            Swal.fire({ title: 'กำลังโหลดข้อมูล...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            await Promise.all([
-                loadAdminData(),
-                loadDashboardData(),
-                loadVoteTime(),
-                loadAdminAccounts()
-            ]);
-            Swal.close();
-        }
-
-        async function loadAdminData() {
-            const result = await callApi('getAdminData');
-            if (result.status === 'success') {
-                displayAdminCandidates(result.votes);
-                allUsersData = result.users;
-                displayAdminUsers(allUsersData);
-                displayElectionChart(result.votes);
-            }
-        }
-
-        async function loadDashboardData() {
-            const result = await callApi('getAdminDashboardData');
-            if (result.status === 'success') {
-                let summaryHtml = `<p><strong>จำนวนผู้ลงคะแนนทั้งหมด:</strong> ${result.totalVoters} คน</p>`;
-                const sortedGrades = Object.keys(result.votesByGradeAndRoom).sort();
-                if(sortedGrades.length > 0) {
-                    summaryHtml += '<strong>ผู้ลงคะแนนแยกตามระดับชั้น:</strong><ul>';
-                    for (const grade of sortedGrades) {
-                        const gradeData = result.votesByGradeAndRoom[grade];
-                        summaryHtml += `<li><strong>${grade}</strong> (รวม ${gradeData.total} คน)</li>`;
-                    }
-                    summaryHtml += '</ul>';
-                }
-                dashboardSummaryDiv.innerHTML = summaryHtml;
-            } else {
-                dashboardSummaryDiv.innerHTML = '<p class="message error">ไม่สามารถโหลดข้อมูลสรุปได้</p>';
-            }
-        }
-        
-        async function loadVoteTime() {
-            const result = await callApi('getVoteTime');
-            if (result.status === 'success') {
-                document.getElementById('current-vote-time').textContent = (result.startTime && result.endTime) ?
-                    `เวลาที่ตั้งไว้: ${new Date(result.startTime).toLocaleString('th-TH')} - ${new Date(result.endTime).toLocaleString('th-TH')}` : 'ยังไม่มีการตั้งเวลา';
-            }
-        }
-
-        async function loadAdminAccounts() {
-            const result = await callApi('getAdminAccounts');
-            adminAccountsTbody.innerHTML = '';
-            if (result.status === 'success' && result.accounts.length > 0) {
-                result.accounts.forEach(account => {
-                    if(account[0] === currentAdminUser) return;
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td>${account[0]}</td><td>${account[2] || ''}</td><td><button class="action-button danger delete-admin-button" data-username="${account[0]}">ลบ</button></td>`;
-                    adminAccountsTbody.appendChild(tr);
-                });
-            }
-        }
-
-        // --- Display Functions ---
-        function displayAdminCandidates(candidates) {
-            adminCandidatesTbody.innerHTML = '';
-            candidates.forEach(row => {
-                const tr = document.createElement('tr');
-                tr.dataset.candidateNumber = row[0]; tr.dataset.candidateName = row[1]; tr.dataset.imageUrl = row[3] || ''; tr.dataset.policy = row[4] || '';
-                const policyText = row[4] ? (row[4].length > 50 ? row[4].substring(0, 50) + '...' : row[4]) : 'ไม่มี';
-                tr.innerHTML = `<td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td><img src="${row[3] || 'https://via.placeholder.com/100x80/F3F4F6/9CA3AF?text=No+Img'}" style="max-width:80px; border-radius: 4px;"></td><td>${policyText}</td><td><button class="action-button edit-button">แก้ไข</button> <button class="action-button danger delete-button">ลบ</button></td>`;
-                adminCandidatesTbody.appendChild(tr);
-            });
-        }
-
-        function displayAdminUsers(users) {
-            adminUsersTbody.innerHTML = '';
-            if (users.length === 0) { adminUsersTbody.innerHTML = '<tr><td colspan="7">ไม่พบข้อมูลผู้ใช้งาน</td></tr>'; return; }
-            users.forEach(row => {
-                const tr = document.createElement('tr'); tr.dataset.studentId = row[0];
-                tr.innerHTML = `<td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td>${row[4]}</td><td>${row[5]}</td><td><button class="action-button danger delete-user-button">ลบ</button></td>`;
-                adminUsersTbody.appendChild(tr);
-            });
-        }
-        
-        function filterAndSearchUsers() {
-            const searchTerm = userSearchInput.value.toLowerCase().trim();
-            const filteredUsers = allUsersData.filter(user => user[0].includes(searchTerm) || user[1].toLowerCase().includes(searchTerm));
-            displayAdminUsers(filteredUsers);
-        }
-
-        function displayElectionChart(votes) {
-            const ctx = document.getElementById('voteChart').getContext('2d');
-            if (voteChartInstance) voteChartInstance.destroy();
-            voteChartInstance = new Chart(ctx, { type: 'bar', data: { labels: votes.map(v => `เบอร์ ${v[0]} (${v[1]})`), datasets: [{ label: 'คะแนน', data: votes.map(v => v[2]), backgroundColor: votes.map(() => `rgba(59, 130, 246, 0.7)`) }] }, options: { responsive: true, maintainAspectRatio: false } });
-        }
-        
-        // --- Event Listeners ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const loggedInUser = sessionStorage.getItem('adminUser');
-            if (loggedInUser) {
-                currentAdminUser = loggedInUser;
-                showAdminPanel(sessionStorage.getItem('adminFullName'));
-            }
-        });
-
-        loginButton.addEventListener('click', async () => {
-            const username = document.getElementById('adminUsername').value; const password = document.getElementById('adminPassword').value;
-            if(!username || !password) { Swal.fire('ข้อมูลไม่ครบ!', 'กรุณากรอก Username และ Password', 'warning'); return; }
-            Swal.fire({ title: 'กำลังเข้าสู่ระบบ...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            const result = await callApi('login', { username, password });
-            if (result.status === 'success') {
-                Swal.close();
-                currentAdminUser = username;
-                sessionStorage.setItem('adminUser', username);
-                sessionStorage.setItem('adminFullName', result.fullName || username);
-                showAdminPanel(result.fullName || username);
-            } else {
-                Swal.fire('ผิดพลาด!', result.message, 'error');
-            }
-        });
-
-        refreshDataButton.addEventListener('click', loadAllAdminData);
-        userSearchInput.addEventListener('input', filterAndSearchUsers);
-        
-        addCandidateButton.addEventListener('click', async () => {
-            const number = document.getElementById('newCandidateNumber').value.trim(); const name = document.getElementById('newCandidateName').value.trim(); const imageUrl = document.getElementById('newCandidateImageUrl').value.trim(); const policy = document.getElementById('newCandidatePolicy').value.trim();
-            if (!number || !name) { Swal.fire('ข้อมูลไม่ครบ!', 'กรุณากรอกเบอร์และชื่อผู้สมัคร', 'warning'); return; }
-            Swal.fire({ title: 'กำลังเพิ่มผู้สมัคร...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            const result = await callApi('addCandidate', { candidateNumber: number, candidateName: name, imageUrl: imageUrl, policy: policy });
-            if (result.status === 'success') {
-                Swal.fire('สำเร็จ!', result.message, 'success');
-                loadAdminData();
-                document.getElementById('newCandidateNumber').value = ''; document.getElementById('newCandidateName').value = ''; document.getElementById('newCandidateImageUrl').value = ''; document.getElementById('newCandidatePolicy').value = '';
-            } else { Swal.fire('ผิดพลาด!', result.message, 'error'); }
-        });
-
-        setVoteTimeButton.addEventListener('click', async () => {
-            const startTime = document.getElementById('voteStartTime').value; const endTime = document.getElementById('voteEndTime').value;
-            if (!startTime || !endTime) { Swal.fire('ข้อมูลไม่ครบ!', 'กรุณาเลือกเวลาเริ่มต้นและสิ้นสุด', 'warning'); return; }
-            Swal.fire({ title: 'กำลังตั้งเวลา...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            const result = await callApi('updateVoteTime', { startTime, endTime });
-            if (result.status === 'success') { Swal.fire('สำเร็จ!', result.message, 'success'); loadVoteTime(); } else { Swal.fire('ผิดพลาด!', result.message, 'error'); }
-        });
-
-        document.getElementById('closeVotingNowButton').addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"ต้องการปิดรับการลงคะแนนทันทีใช่ไหม?",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ปิดทันที!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('closeVotingNow');if(res.status==='success'){Swal.fire('สำเร็จ!','ปิดการลงคะแนนแล้ว','success');loadVoteTime();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
-        resetVotesButton.addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"คะแนนโหวตทั้งหมดจะถูกรีเซ็ตเป็น 0!",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, รีเซ็ต!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('resetVotes');if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
-        clearUsersButton.addEventListener('click', () => Swal.fire({title:'ยืนยัน?',text:"ข้อมูลสถานะการลงคะแนนของนักเรียนทุกคนจะถูกล้าง!",icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ล้างข้อมูล!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('clearUsers');if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAllAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}}));
-        document.getElementById('exportUsersPdfButton').addEventListener('click', async () => { Swal.fire({title:'กำลังสร้าง PDF...',didOpen:()=>Swal.showLoading()}); const res=await callApi('exportPdf',{dataType:'users'}); if(res.status==='success'){Swal.update({title:'สร้างไฟล์สำเร็จ!',html:`<a href="${res.pdfUrl}" target="_blank" rel="noopener noreferrer">คลิกเพื่อเปิด PDF</a>`,icon:'success',showConfirmButton:true});}else{Swal.fire('ผิดพลาด!',res.message,'error');} });
-        document.getElementById('exportVotesPdfButton').addEventListener('click', async () => { Swal.fire({title:'กำลังสร้าง PDF...',didOpen:()=>Swal.showLoading()}); const res=await callApi('exportPdf',{dataType:'votes'}); if(res.status==='success'){Swal.update({title:'สร้างไฟล์สำเร็จ!',html:`<a href="${res.pdfUrl}" target="_blank" rel="noopener noreferrer">คลิกเพื่อเปิด PDF</a>`,icon:'success',showConfirmButton:true});}else{Swal.fire('ผิดพลาด!',res.message,'error');} });
-        
-        addAdminButton.addEventListener('click', async () => {
-            const username = document.getElementById('newAdminUsername').value.trim(); const password = document.getElementById('newAdminPassword').value.trim(); const fullName = document.getElementById('newAdminFullName').value.trim();
-            if (!username || !password || !fullName) { Swal.fire('ข้อมูลไม่ครบ!', 'กรุณากรอกข้อมูลให้ครบถ้วน', 'warning'); return; }
-            const result = await callApi('addAdminAccount', { username, password, fullName });
-            if (result.status === 'success') { Swal.fire('สำเร็จ!', result.message, 'success'); loadAdminAccounts(); document.getElementById('newAdminUsername').value = ''; document.getElementById('newAdminPassword').value = ''; document.getElementById('newAdminFullName').value = ''; } else { Swal.fire('ผิดพลาด!', result.message, 'error'); }
-        });
-
-        // Event Delegation for dynamic buttons
-        document.getElementById('admin-panel').addEventListener('click', async (event) => {
-            const target = event.target;
-            const row = target.closest('tr');
-            if (!row) return;
-
-            if (target.classList.contains('edit-button')) {
-                document.getElementById('editCandidateNumberHidden').value = row.dataset.candidateNumber;
-                document.getElementById('editCandidateNumberDisplay').value = row.dataset.candidateNumber;
-                document.getElementById('editCandidateName').value = row.dataset.candidateName;
-                document.getElementById('editCandidateImageUrl').value = row.dataset.imageUrl;
-                document.getElementById('editCandidatePolicy').value = row.dataset.policy;
-                editCandidateModal.style.display = 'flex';
-            }
-            if (target.classList.contains('delete-button')) {
-                const number = row.dataset.candidateNumber;
-                Swal.fire({title:'ยืนยัน?',text:`ต้องการลบผู้สมัครเบอร์ '${number}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteCandidate',{candidateNumber:number});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
-            }
-            if (target.classList.contains('delete-user-button')) {
-                const id = row.dataset.studentId;
-                Swal.fire({title:'ยืนยัน?',text:`ต้องการลบข้อมูลการโหวตของนักเรียนรหัส '${id}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteUser',{studentId:id});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAllAdminData();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
-            }
-            if (target.classList.contains('delete-admin-button')) {
-                const username = target.dataset.username;
-                Swal.fire({title:'ยืนยัน?',text:`ต้องการลบบัญชีผู้ดูแล '${username}'?`,icon:'warning',showCancelButton:true,confirmButtonColor:'#d33',confirmButtonText:'ใช่, ลบ!'}).then(async r=>{if(r.isConfirmed){const res=await callApi('deleteAdminAccount',{username:username});if(res.status==='success'){Swal.fire('สำเร็จ!',res.message,'success');loadAdminAccounts();}else{Swal.fire('ผิดพลาด!',res.message,'error');}}});
-            }
-        });
-        
-        saveCandidateButton.addEventListener('click', async () => {
-            const number = document.getElementById('editCandidateNumberHidden').value; const name = document.getElementById('editCandidateName').value; const imageUrl = document.getElementById('editCandidateImageUrl').value; const policy = document.getElementById('editCandidatePolicy').value;
-            saveCandidateButton.disabled = true; saveCandidateButton.textContent = 'กำลังบันทึก...';
-            const result = await callApi('editCandidate', { candidateNumber: number, candidateName: name, imageUrl: imageUrl, policy: policy });
-            if (result.status === 'success') {
-                loadAdminData();
-                setTimeout(() => { editCandidateModal.style.display = 'none'; }, 500);
-            }
-            saveCandidateButton.disabled = false; saveCandidateButton.textContent = 'บันทึกการเปลี่ยนแปลง';
-        });
-
-    </script>
+    function onResetComplete(message) {
+      alert(message);
+      loadDashboardData(); // โหลดข้อมูลใหม่หลังจากรีเซ็ต
+    }
+  </script>
 </body>
 </html>
