@@ -1,126 +1,192 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบเลือกตั้งประธานนักเรียน</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-    <style>
-      /* === MODERN STYLESHEET FOR ELECTION WEB APP === */
-      :root { --primary-color: #3B82F6; --primary-hover: #2563EB; --secondary-color: #6B7280; --success-color: #10B981; --danger-color: #EF4444; --warning-color: #F59E0B; --light-gray: #F3F4F6; --border-color: #D1D5DB; --text-dark: #1F2937; --text-light: #4B5563; --white: #FFFFFF; --font-family: 'Kanit', sans-serif; --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); --border-radius: 0.75rem; }
-      body { font-family: var(--font-family); background-color: var(--light-gray); color: var(--text-dark); margin: 0; line-height: 1.6; }
-      .container { max-width: 900px; margin: 2rem auto; padding: 2rem; background-color: var(--white); border-radius: var(--border-radius); box-shadow: var(--shadow-lg); }
-      header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
-      header .logo { max-width: 80px; margin-bottom: 1rem; }
-      header h1 { color: var(--primary-color); font-weight: 700; font-size: 2.25rem; margin: 0; }
-      .form-section, .admin-section { margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--border-color); border-radius: var(--border-radius); background-color: var(--white); }
-      label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-light); }
-      input[type="text"], input[type="password"], input[type="number"], input[type="datetime-local"], textarea, select { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; box-sizing: border-box; font-family: var(--font-family); font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
-      input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
-      input[readonly] { background-color: var(--light-gray); }
-      button { background-color: var(--primary-color); color: white; padding: 0.8rem 1.5rem; margin-top: 1rem; border: none; border-radius: 0.5rem; cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: 500; transition: all 0.2s ease-in-out; box-shadow: var(--shadow-sm); }
-      button:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-      button:disabled { background-color: #A5B4FC; cursor: not-allowed; }
-      .candidate-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-      .candidate-options.disabled { opacity: 0.5; pointer-events: none; }
-      .candidate-card { border-radius: var(--border-radius); overflow: hidden; position: relative; border: 2px solid var(--border-color); transition: all 0.3s ease; }
-      .candidate-card input[type="radio"] { display: none; }
-      .candidate-card label { display: flex; flex-direction: column; height: 100%; padding: 0; margin: 0; cursor: pointer; text-align: left; background-color: var(--white); }
-      .candidate-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: #9CA3AF; }
-      .candidate-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
-      .candidate-card .candidate-info { padding: 1rem; flex-grow: 1; }
-      .candidate-card .candidate-number { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin: 0 0 0.25rem 0; }
-      .candidate-card .candidate-name { font-size: 1.2rem; font-weight: 600; margin: 0 0 0.75rem 0; color: var(--text-dark); }
-      .candidate-card .candidate-policy { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
-      .candidate-card.selected { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
-      .message { font-size: 0.9rem; margin-top: 0.5rem; min-height: 1.2rem; }
-      .message.success { color: var(--success-color); font-weight: 500; }
-      .message.error { color: var(--danger-color); font-weight: 500; }
-      .message.loading { color: var(--secondary-color); font-weight: 500; }
-      .status-message { padding: 1rem; border-radius: 0.5rem; font-size: 1.1rem; font-weight: 500; margin-bottom: 1.5rem; text-align: center; }
-      .status-message.open { background-color: #D1FAE5; color: #065F46; }
-      .status-message.closed { background-color: #FEE2E2; color: #991B1B; }
-      #countdown-timer { text-align: center; font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 600; color: var(--text-light); }
-      #countdown-timer span { background: var(--text-dark); color: white; padding: 0.5rem 0.75rem; border-radius: 0.375rem; margin: 0 0.25rem; }
-      .footer { text-align: center; margin-top: 3rem; padding: 1.5rem; background-color: var(--text-dark); color: #A1A1AA; }
-      .footer .social-icon { width: 24px; height: 24px; margin: 0 5px; vertical-align: middle; }
-      .footer a { color: var(--primary-color); text-decoration: none; transition: color 0.2s; }
-      .footer a:hover { color: var(--white); }
-      .announcement-bar { background-color: var(--warning-color); color: var(--text-dark); padding: 0.75rem; text-align: center; font-weight: 500; overflow: hidden; white-space: nowrap; }
-      .scrolling-text { display: inline-block; padding-left: 100%; animation: scroll-left 40s linear infinite; }
-      @keyframes scroll-left { 0% { transform: translateX(50%); } 100% { transform: translateX(-150%); } }
-    </style>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เลือกตั้งประธานนักเรียน</title>
+  <style>
+    body { font-family: 'Sarabun', sans-serif; text-align: center; margin: 0; padding: 0; background-color: #f0f2f5; color: #333; }
+    .container { max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; }
+    h1 { color: #0056b3; }
+    .status-message { font-size: 1.2em; margin-bottom: 20px; }
+    .candidate-card { display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; cursor: pointer; transition: transform 0.2s; }
+    .candidate-card:hover { transform: scale(1.02); }
+    .candidate-card.selected { border-color: #007bff; border-width: 2px; }
+    .candidate-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+    .vote-button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; margin-top: 20px; }
+    .vote-button:disabled { background-color: #ccc; cursor: not-allowed; }
+    .countdown { font-size: 1.5em; font-weight: bold; margin-bottom: 10px; }
+    .results-chart { width: 100%; max-width: 500px; margin: 0 auto; }
+  </style>
 </head>
 <body>
-    <div class="announcement-bar">
-        <p class="scrolling-text">📣 ยินดีต้อนรับสู่ระบบการเลือกตั้งประธานนักเรียน ประจำปีการศึกษา 2568 ‼️ ขอให้นักเรียนทุกคนตรวจสอบข้อมูลและรักษาสิทธิ์ของตนเอง ‼️ หากพบปัญหาสามารถติดต่อสภานักเรียนได้ทาง Facebook หรือ Instagram ‼️</p>
+  <div class="container">
+    <h1>เลือกตั้งประธานนักเรียน<br>โรงเรียนภูหลวงวิทยา</h1>
+    <div id="vote-status-container">
+      <div class="status-message" id="vote-status">กำลังตรวจสอบเวลา...</div>
+      <div class="countdown" id="countdown"></div>
     </div>
-    <div class="container">
-        <header>
-            <img src="https://img5.pic.in.th/file/secure-sv1/IMG_60290ec6a71fd92a13d0.png" alt="โลโก้โรงเรียน" class="logo">
-            <h1>ลงคะแนนเลือกตั้งประธานนักเรียน</h1>
-        </header>
 
-        <div id="voting-status" class="status-message"></div>
-        <div id="countdown-timer" style="display: none;"></div>
-
-        <div id="registration-form-section" class="form-section">
-            <h2>กรอกข้อมูลเพื่อลงคะแนน</h2>
-            <form id="voteForm" onsubmit="return false;">
-                <label for="studentId">รหัสนักเรียน :</label>
-                <input type="text" id="studentId" name="studentId" required maxlength="5" pattern="0[0-9]{4}" inputmode="numeric" placeholder="กรอกรหัสนักเรียน 5 หลัก">
-                <p id="student-id-msg" class="message"></p>
-                <label for="fullName">ชื่อ - นามสกุล :</label>
-                <input type="text" id="fullName" name="fullName" readonly>
-                <label for="grade">ระดับชั้น :</label>
-                <input type="text" id="grade" name="grade" readonly>
-                <label for="room">ห้อง :</label>
-                <input type="text" id="room" name="room" readonly>
-                <label>เลือกผู้สมัคร :</label>
-                <div id="candidate-options" class="candidate-options disabled"></div>
-                <button type="button" id="submitVoteButton" disabled>ยืนยันการลงคะแนน</button>
-            </form>
-        </div>
-        <div id="results-section" style="display: none;">
-            </div>
+    <div id="voting-area" style="display:none;">
+      <p>กรอกรหัสนักเรียนเพื่อเริ่มต้นการโหวต:</p>
+      <input type="text" id="student-id" placeholder="รหัส 5 หลัก" maxlength="5">
+      <div id="status-message"></div>
+      
+      <div id="candidates-container" style="display:none;">
+        <p>เลือกผู้สมัครที่คุณต้องการ:</p>
+        <div id="candidates-list"></div>
+        <button id="vote-button" class="vote-button" disabled>โหวต</button>
+      </div>
     </div>
-    <footer class="footer">
-        <p>&copy;2025 Student Council of Phu Luang Witthaya School <a href="?page=admin" style="text-decoration: none;">Admin Login</a></p>
-    </footer>
+    
+    <div id="results-area" style="display:none;">
+      <h2>ผลการเลือกตั้ง</h2>
+      <canvas id="results-chart"></canvas>
+    </div>
+  </div>
 
-    <script>
-        // ⭐⭐⭐ แก้ไข URL นี้ให้เป็นของคุณเอง ⭐⭐⭐
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw7-CZI328W6sWRbv-vTHykVzpbloXPv5vtrhfwJFFQA5P6rgCl5eZvWpv0RZETlRjB/exec';
-        // ⭐⭐⭐ ----------------------------- ⭐⭐⭐
-        
-        const voteForm = document.getElementById('voteForm');
-        const candidateOptionsDiv = document.getElementById('candidate-options');
-        const studentIdInput = document.getElementById('studentId');
-        const studentIdMsg = document.getElementById('student-id-msg');
-        const fullNameInput = document.getElementById('fullName');
-        const gradeInput = document.getElementById('grade');
-        const roomInput = document.getElementById('room');
-        const submitVoteButton = document.getElementById('submitVoteButton');
-        const votingStatusDiv = document.getElementById('voting-status');
-        const countdownTimerDiv = document.getElementById('countdown-timer');
-        const registrationFormSection = document.getElementById('registration-form-section');
-        const resultsSection = document.getElementById('results-section');
-        let countdownInterval;
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    let selectedCandidate = null;
+    let candidatesData = [];
+    let myChart = null;
 
-        async function callApi(action, data = {}) { try { const response = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify({ action, ...data }), headers: { 'Content-Type': 'application/json' }, }); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); return await response.json(); } catch (error) { console.error('Error calling API:', error); Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้: ' + error.message, 'error'); return { status: 'error', message: 'เกิดข้อผิดพลาดในการเชื่อมต่อ: ' + error.message }; } }
-        async function loadInitialData() { showSkeletonLoader(); validateForm(); const resultsData = await callApi('getVoteResults'); if (resultsData.status === 'success' && resultsData.results) { displayCandidateOptions(resultsData.results); } else { candidateOptionsDiv.innerHTML = `<p class="message error">ไม่สามารถโหลดข้อมูลผู้สมัครได้</p>`; } checkVotingStatus(); }
-        function displayCandidateOptions(candidates) { candidateOptionsDiv.innerHTML = ''; if (candidates.length === 0) { candidateOptionsDiv.innerHTML = '<p class="message">ยังไม่มีผู้สมัครในระบบ</p>'; return; } candidates.forEach(candidate => { const div = document.createElement('div'); div.classList.add('candidate-card'); div.innerHTML = `<input type="radio" id="candidate-${candidate.number}" name="voteChoice" value="${candidate.number}" required><label for="candidate-${candidate.number}"><img src="${candidate.photoUrl || 'https://via.placeholder.com/300x220/F3F4F6/9CA3AF?text=No+Image'}" alt="รูปผู้สมัคร ${candidate.name}"><div class="candidate-info"><h3 class="candidate-number">เบอร์ ${candidate.number}</h3><p class="candidate-name">${candidate.name}</p><p class="candidate-policy">${candidate.policy || 'ไม่มีนโยบาย'}</p></div></label>`; candidateOptionsDiv.appendChild(div); }); }
-        function showSkeletonLoader() { candidateOptionsDiv.innerHTML = ''; candidateOptionsDiv.classList.add('disabled'); }
-        studentIdInput.addEventListener('input', async () => { const id = studentIdInput.value; studentIdMsg.style.display = 'block'; const resetFields = () => { fullNameInput.value = ''; gradeInput.value = ''; roomInput.value = ''; candidateOptionsDiv.classList.add('disabled'); validateForm(); }; if (id.length === 5 && id.startsWith('0')) { studentIdMsg.textContent = 'กำลังตรวจสอบ...'; studentIdMsg.className = 'message loading'; const result = await callApi('getStudentDetails', { studentId: id }); if (result.status === 'success') { studentIdMsg.textContent = 'พบข้อมูลนักเรียน'; studentIdMsg.className = 'message success'; fullNameInput.value = result.fullName; gradeInput.value = result.grade; roomInput.value = result.room; candidateOptionsDiv.classList.remove('disabled'); validateForm(); } else { studentIdMsg.textContent = result.message; studentIdMsg.className = 'message error'; resetFields(); } } else if (id.length > 0) { studentIdMsg.textContent = 'รูปแบบรหัสไม่ถูกต้อง'; studentIdMsg.className = 'message error'; resetFields(); } else { studentIdMsg.textContent = ''; resetFields(); } });
-        submitVoteButton.addEventListener('click', () => { const studentId = studentIdInput.value; const voteChoiceElement = document.querySelector('input[name="voteChoice"]:checked'); if (!voteChoiceElement) return; const voteChoiceValue = voteChoiceElement.value; const candidateName = document.querySelector(`label[for="candidate-${voteChoiceValue}"] .candidate-name`).textContent.trim(); Swal.fire({ title: 'ยืนยันการลงคะแนน', html: `<p>โปรดตรวจสอบข้อมูลก่อนยืนยัน</p><div style="text-align: left; margin: 0 auto; display: inline-block;"><strong>รหัสนักเรียน :</strong> ${studentId}<br><strong>ชื่อ :</strong> ${fullNameInput.value}<br><strong>คุณเลือกลงคะแนนให้ :</strong> <br><strong>${candidateName}</strong></div>`, icon: 'question', showCancelButton: true, confirmButtonColor: '#3B82F6', cancelButtonColor: '#6B7280', confirmButtonText: 'ยืนยัน', cancelButtonText: 'แก้ไข' }).then(async (result) => { if (result.isConfirmed) { Swal.fire({ title: 'กำลังบันทึกคะแนน...', text: 'กรุณารอสักครู่', allowOutsideClick: false, didOpen: () => Swal.showLoading() }); const apiResult = await callApi('registerAndVote', { studentId: studentId, voteChoice: voteChoiceValue }); if (apiResult.status === 'success') { confetti({ particleCount: 150, spread: 180, origin: { y: 0.6 } }); Swal.fire({ title: 'ลงคะแนนสำเร็จ!', text: apiResult.message, icon: 'success', timer: 2000, showConfirmButton: false }); voteForm.reset(); studentIdMsg.textContent = ''; document.querySelectorAll('.candidate-card').forEach(card => card.classList.remove('selected')); validateForm(); candidateOptionsDiv.classList.add('disabled'); loadInitialData(); } else { Swal.fire({ title: 'ผิดพลาด!', text: apiResult.message, icon: 'error' }); if (apiResult.message.includes('โหวตไปแล้ว')) { studentIdInput.dispatchEvent(new Event('input')); } } } }); });
-        candidateOptionsDiv.addEventListener('change', (event) => { if (event.target.name === 'voteChoice') { document.querySelectorAll('.candidate-card').forEach(card => card.classList.remove('selected')); const selectedCard = event.target.closest('.candidate-card'); if (selectedCard) selectedCard.classList.add('selected'); validateForm(); } });
-        function validateForm() { const studentId = studentIdInput.value; const fullName = fullNameInput.value; const choiceRadio = document.querySelector('input[name="voteChoice"]:checked'); submitVoteButton.disabled = !(studentId.length === 5 && fullName.trim() !== '' && choiceRadio); }
-        async function checkVotingStatus() { const response = await callApi('getVoteTime'); if (response.status === 'success') { const now = new Date(); const startDateTime = response.startTime ? new Date(response.startTime) : null; const endDateTime = response.endTime ? new Date(response.endTime) : null; clearInterval(countdownInterval); countdownTimerDiv.style.display = 'none'; if (!response.isVotingOpen) { registrationFormSection.style.display = 'none'; resultsSection.style.display = 'block'; if (startDateTime && now < startDateTime) { votingStatusDiv.textContent = '🔴 ยังไม่ถึงเวลาเปิดลงคะแนน จะเปิดในอีก'; countdownTimerDiv.style.display = 'block'; startCountdown(startDateTime.getTime()); } else { votingStatusDiv.textContent = `🔴 ปิดรับการลงคะแนนแล้ว`; } votingStatusDiv.className = 'status-message closed'; } else { registrationFormSection.style.display = 'block'; resultsSection.style.display = 'none'; if (endDateTime) { votingStatusDiv.textContent = '🟢 เปิดให้ลงคะแนนแล้ว จะปิดในอีก'; countdownTimerDiv.style.display = 'block'; startCountdown(endDateTime.getTime()); } else { votingStatusDiv.textContent = '🟢 เปิดให้ลงคะแนนแล้ว'; } votingStatusDiv.className = 'status-message open'; } } }
-        function startCountdown(targetTime) { clearInterval(countdownInterval); const updateCountdown = () => { const distance = targetTime - new Date().getTime(); if (distance < 1000) { clearInterval(countdownInterval); countdownTimerDiv.style.display = 'none'; loadInitialData(); return; } const days = Math.floor(distance / (1000 * 60 * 60 * 24)); const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((distance % (1000 * 60)) / 1000); countdownTimerDiv.innerHTML = `<span>${days}</span> วัน <span>${hours}</span> ชม. <span>${minutes}</span> นาที <span>${seconds}</span> วินาที`; }; updateCountdown(); countdownInterval = setInterval(updateCountdown, 1000); }
-        document.addEventListener('DOMContentLoaded', loadInitialData);
-    </script>
+    function checkVoteTime() {
+      google.script.run.withSuccessHandler(onVoteTimeReceived).getVoteTime();
+    }
+
+    function onVoteTimeReceived(timeConfig) {
+      const now = new Date();
+      const startTime = new Date(timeConfig.startTime);
+      const endTime = new Date(timeConfig.endTime);
+
+      const statusDiv = document.getElementById('vote-status');
+      const countdownDiv = document.getElementById('countdown');
+      const votingArea = document.getElementById('voting-area');
+      const resultsArea = document.getElementById('results-area');
+
+      if (now >= startTime && now <= endTime) {
+        statusDiv.innerText = "เปิดให้โหวต";
+        votingArea.style.display = 'block';
+        resultsArea.style.display = 'none';
+        updateCountdown(endTime);
+        setInterval(() => updateCountdown(endTime), 1000);
+      } else if (now > endTime) {
+        statusDiv.innerText = "ปิดรับการโหวตแล้ว";
+        votingArea.style.display = 'none';
+        resultsArea.style.display = 'block';
+        showResults();
+      } else {
+        statusDiv.innerText = "ยังไม่ถึงเวลาเปิดโหวต";
+        votingArea.style.display = 'none';
+        resultsArea.style.display = 'none';
+      }
+    }
+
+    function updateCountdown(endTime) {
+      const now = new Date();
+      const timeLeft = endTime - now;
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      document.getElementById('countdown').innerText = `เหลือเวลา: ${days} วัน ${hours} ชั่วโมง ${minutes} นาที ${seconds} วินาที`;
+    }
+
+    document.getElementById('student-id').addEventListener('input', (e) => {
+      const studentId = e.target.value;
+      const statusDiv = document.getElementById('status-message');
+      const candidatesContainer = document.getElementById('candidates-container');
+      if (studentId.length === 5) {
+        google.script.run.withSuccessHandler(onStudentStatusReceived).checkStudentStatus(studentId);
+      } else {
+        statusDiv.innerText = '';
+        candidatesContainer.style.display = 'none';
+      }
+    });
+
+    function onStudentStatusReceived(status) {
+      const statusDiv = document.getElementById('status-message');
+      const candidatesContainer = document.getElementById('candidates-container');
+      if (status.status === "ok") {
+        statusDiv.innerText = "รหัสถูกต้อง! กรุณาเลือกผู้สมัคร";
+        candidatesContainer.style.display = 'block';
+        google.script.run.withSuccessHandler(renderCandidates).getCandidates();
+      } else if (status.status === "already_voted") {
+        statusDiv.innerText = "คุณได้ทำการโหวตไปแล้ว";
+        candidatesContainer.style.display = 'none';
+      } else {
+        statusDiv.innerText = "ไม่พบรหัสนักเรียน";
+        candidatesContainer.style.display = 'none';
+      }
+    }
+
+    function renderCandidates(candidates) {
+      candidatesData = candidates;
+      const list = document.getElementById('candidates-list');
+      list.innerHTML = '';
+      candidates.forEach(candidate => {
+        const card = document.createElement('div');
+        card.className = 'candidate-card';
+        card.setAttribute('data-id', candidate.id);
+        card.innerHTML = `<img src="${candidate.image}" class="candidate-img"><p>${candidate.name}</p>`;
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.candidate-card').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          selectedCandidate = candidate.id;
+          document.getElementById('vote-button').disabled = false;
+        });
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById('vote-button').addEventListener('click', () => {
+      if (selectedCandidate) {
+        const studentId = document.getElementById('student-id').value;
+        google.script.run.withSuccessHandler(onVoteComplete).vote(studentId, selectedCandidate);
+      }
+    });
+
+    function onVoteComplete(message) {
+      alert(message);
+      if (message === "โหวตสำเร็จ!") {
+        location.reload(); // รีโหลดหน้าเพื่อไม่ให้โหวตซ้ำ
+      }
+    }
+    
+    function showResults() {
+      google.script.run.withSuccessHandler(renderResultsChart).getAdminDashboardData();
+    }
+    
+    function renderResultsChart(data) {
+      const ctx = document.getElementById('results-chart').getContext('2d');
+      const labels = data.voteResults.map(res => res.candidate);
+      const votes = data.voteResults.map(res => res.votes);
+      
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'คะแนนโหวต',
+            data: votes,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    checkVoteTime();
+  </script>
 </body>
 </html>
