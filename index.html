@@ -1,192 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <base target="_top">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>เลือกตั้งประธานนักเรียน</title>
-  <style>
-    body { font-family: 'Sarabun', sans-serif; text-align: center; margin: 0; padding: 0; background-color: #f0f2f5; color: #333; }
-    .container { max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; }
-    h1 { color: #0056b3; }
-    .status-message { font-size: 1.2em; margin-bottom: 20px; }
-    .candidate-card { display: flex; flex-direction: column; align-items: center; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; cursor: pointer; transition: transform 0.2s; }
-    .candidate-card:hover { transform: scale(1.02); }
-    .candidate-card.selected { border-color: #007bff; border-width: 2px; }
-    .candidate-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
-    .vote-button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; margin-top: 20px; }
-    .vote-button:disabled { background-color: #ccc; cursor: not-allowed; }
-    .countdown { font-size: 1.5em; font-weight: bold; margin-bottom: 10px; }
-    .results-chart { width: 100%; max-width: 500px; margin: 0 auto; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบแนะแนวโรงเรียนภูหลวงวิทยา</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>เลือกตั้งประธานนักเรียน<br>โรงเรียนภูหลวงวิทยา</h1>
-    <div id="vote-status-container">
-      <div class="status-message" id="vote-status">กำลังตรวจสอบเวลา...</div>
-      <div class="countdown" id="countdown"></div>
-    </div>
+    <header>
+        <div class="header-container">
+            <img src="https://via.placeholder.com/80" alt="Phuluang School Logo" class="school-logo">
+            <h1>งานแนะแนวโรงเรียนภูหลวงวิทยา</h1>
+            <p>ประชาสัมพันธ์ข้อมูลการรับสมัครเข้าศึกษาต่อมหาวิทยาลัย</p>
+        </div>
+    </header>
 
-    <div id="voting-area" style="display:none;">
-      <p>กรอกรหัสนักเรียนเพื่อเริ่มต้นการโหวต:</p>
-      <input type="text" id="student-id" placeholder="รหัส 5 หลัก" maxlength="5">
-      <div id="status-message"></div>
-      
-      <div id="candidates-container" style="display:none;">
-        <p>เลือกผู้สมัครที่คุณต้องการ:</p>
-        <div id="candidates-list"></div>
-        <button id="vote-button" class="vote-button" disabled>โหวต</button>
-      </div>
-    </div>
-    
-    <div id="results-area" style="display:none;">
-      <h2>ผลการเลือกตั้ง</h2>
-      <canvas id="results-chart"></canvas>
-    </div>
-  </div>
+    <main>
+        <div class="content-container">
+            <section class="search-section">
+                <h2>ค้นหามหาวิทยาลัย</h2>
+                <input type="text" id="searchInput" placeholder="ค้นหามหาวิทยาลัย, คณะ, หรือสาขาวิชา...">
+                <div id="searchResults" class="results-grid">
+                    </div>
+            </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    let selectedCandidate = null;
-    let candidatesData = [];
-    let myChart = null;
+            <section class="promotions-section">
+                <h2>ประกาศล่าสุด</h2>
+                <div id="promoList" class="results-grid">
+                    </div>
+            </section>
+        </div>
+    </main>
 
-    function checkVoteTime() {
-      google.script.run.withSuccessHandler(onVoteTimeReceived).getVoteTime();
-    }
+    <footer>
+        <p>© 2025 โรงเรียนภูหลวงวิทยา | ติดต่องานแนะแนว: โทร. 0xxxxxxxxx</p>
+        <p><a href="admin.html">สำหรับผู้ดูแลระบบ</a></p>
+    </footer>
 
-    function onVoteTimeReceived(timeConfig) {
-      const now = new Date();
-      const startTime = new Date(timeConfig.startTime);
-      const endTime = new Date(timeConfig.endTime);
-
-      const statusDiv = document.getElementById('vote-status');
-      const countdownDiv = document.getElementById('countdown');
-      const votingArea = document.getElementById('voting-area');
-      const resultsArea = document.getElementById('results-area');
-
-      if (now >= startTime && now <= endTime) {
-        statusDiv.innerText = "เปิดให้โหวต";
-        votingArea.style.display = 'block';
-        resultsArea.style.display = 'none';
-        updateCountdown(endTime);
-        setInterval(() => updateCountdown(endTime), 1000);
-      } else if (now > endTime) {
-        statusDiv.innerText = "ปิดรับการโหวตแล้ว";
-        votingArea.style.display = 'none';
-        resultsArea.style.display = 'block';
-        showResults();
-      } else {
-        statusDiv.innerText = "ยังไม่ถึงเวลาเปิดโหวต";
-        votingArea.style.display = 'none';
-        resultsArea.style.display = 'none';
-      }
-    }
-
-    function updateCountdown(endTime) {
-      const now = new Date();
-      const timeLeft = endTime - now;
-      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-      document.getElementById('countdown').innerText = `เหลือเวลา: ${days} วัน ${hours} ชั่วโมง ${minutes} นาที ${seconds} วินาที`;
-    }
-
-    document.getElementById('student-id').addEventListener('input', (e) => {
-      const studentId = e.target.value;
-      const statusDiv = document.getElementById('status-message');
-      const candidatesContainer = document.getElementById('candidates-container');
-      if (studentId.length === 5) {
-        google.script.run.withSuccessHandler(onStudentStatusReceived).checkStudentStatus(studentId);
-      } else {
-        statusDiv.innerText = '';
-        candidatesContainer.style.display = 'none';
-      }
-    });
-
-    function onStudentStatusReceived(status) {
-      const statusDiv = document.getElementById('status-message');
-      const candidatesContainer = document.getElementById('candidates-container');
-      if (status.status === "ok") {
-        statusDiv.innerText = "รหัสถูกต้อง! กรุณาเลือกผู้สมัคร";
-        candidatesContainer.style.display = 'block';
-        google.script.run.withSuccessHandler(renderCandidates).getCandidates();
-      } else if (status.status === "already_voted") {
-        statusDiv.innerText = "คุณได้ทำการโหวตไปแล้ว";
-        candidatesContainer.style.display = 'none';
-      } else {
-        statusDiv.innerText = "ไม่พบรหัสนักเรียน";
-        candidatesContainer.style.display = 'none';
-      }
-    }
-
-    function renderCandidates(candidates) {
-      candidatesData = candidates;
-      const list = document.getElementById('candidates-list');
-      list.innerHTML = '';
-      candidates.forEach(candidate => {
-        const card = document.createElement('div');
-        card.className = 'candidate-card';
-        card.setAttribute('data-id', candidate.id);
-        card.innerHTML = `<img src="${candidate.image}" class="candidate-img"><p>${candidate.name}</p>`;
-        card.addEventListener('click', () => {
-          document.querySelectorAll('.candidate-card').forEach(c => c.classList.remove('selected'));
-          card.classList.add('selected');
-          selectedCandidate = candidate.id;
-          document.getElementById('vote-button').disabled = false;
-        });
-        list.appendChild(card);
-      });
-    }
-
-    document.getElementById('vote-button').addEventListener('click', () => {
-      if (selectedCandidate) {
-        const studentId = document.getElementById('student-id').value;
-        google.script.run.withSuccessHandler(onVoteComplete).vote(studentId, selectedCandidate);
-      }
-    });
-
-    function onVoteComplete(message) {
-      alert(message);
-      if (message === "โหวตสำเร็จ!") {
-        location.reload(); // รีโหลดหน้าเพื่อไม่ให้โหวตซ้ำ
-      }
-    }
-    
-    function showResults() {
-      google.script.run.withSuccessHandler(renderResultsChart).getAdminDashboardData();
-    }
-    
-    function renderResultsChart(data) {
-      const ctx = document.getElementById('results-chart').getContext('2d');
-      const labels = data.voteResults.map(res => res.candidate);
-      const votes = data.voteResults.map(res => res.votes);
-      
-      myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'คะแนนโหวต',
-            data: votes,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    }
-
-    checkVoteTime();
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
