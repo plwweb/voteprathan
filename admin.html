@@ -1,157 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <base target="_top">
-  <title>Admin Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'Sarabun', sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
-    .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-    h1, h2 { color: #0056b3; }
-    .card { background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
-    .login-form { text-align: center; }
-    input[type="text"], input[type="password"] { width: 80%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
-    button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    .dashboard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; text-align: center; }
-    .dashboard-grid .stat { background-color: #e9ecef; padding: 15px; border-radius: 8px; }
-    .stat h3 { margin: 0; color: #495057; }
-    .stat p { font-size: 2em; margin: 5px 0 0; font-weight: bold; }
-    .config-form { margin-top: 20px; }
-    .config-form label, .config-form input { display: block; margin-bottom: 10px; width: 100%; box-sizing: border-box; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการข้อมูลแนะแนว (สำหรับผู้ดูแล)</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div id="login-section">
-      <h1>Admin Login</h1>
-      <div class="card login-form">
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <div id="login-status" style="color:red; margin-top:10px;"></div>
-      </div>
-    </div>
-    
-    <div id="dashboard-section" style="display:none;">
-      <h1>Admin Dashboard</h1>
-      <div class="dashboard-grid">
-        <div class="card stat">
-          <h3>จำนวนนักเรียนทั้งหมด</h3>
-          <p id="total-students">...</p>
+    <header>
+        <div class="header-container">
+            <h1>หน้าจัดการข้อมูลสำหรับผู้ดูแล</h1>
+            <p>เพิ่ม แก้ไข และลบข้อมูลการรับสมัคร</p>
         </div>
-        <div class="card stat">
-          <h3>จำนวนผู้โหวตแล้ว</h3>
-          <p id="voted-students">...</p>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <section class="admin-form">
+                <h2>จัดการข้อมูลการรับสมัคร</h2>
+                <form id="admissionForm">
+                    <input type="hidden" id="admissionId">
+                    <label for="uniName">ชื่อมหาวิทยาลัย:</label>
+                    <input type="text" id="uniName" required>
+
+                    <label for="faculty">คณะ/สาขาวิชา:</label>
+                    <input type="text" id="faculty" required>
+
+                    <label for="details">รายละเอียด:</label>
+                    <textarea id="details" rows="3" required></textarea>
+
+                    <label for="link">ลิงก์เว็บไซต์:</label>
+                    <input type="url" id="link" placeholder="เช่น https://www.example.com" required>
+
+                    <button type="submit" id="submitBtn">เพิ่มข้อมูล</button>
+                    <button type="button" id="cancelBtn" style="display:none;">ยกเลิก</button>
+                </form>
+            </section>
+
+            <section class="admin-table">
+                <h2>รายการข้อมูลทั้งหมด</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>มหาวิทยาลัย</th>
+                            <th>คณะ</th>
+                            <th>รายละเอียด</th>
+                            <th>จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                        </tbody>
+                </table>
+            </section>
         </div>
-      </div>
-      
-      <div class="card" style="margin-top: 20px;">
-        <h2>ผลการโหวต</h2>
-        <canvas id="vote-chart"></canvas>
-      </div>
+    </main>
 
-      <div class="card config-form">
-        <h2>ตั้งค่าเวลาการโหวต</h2>
-        <label for="start-time">เวลาเริ่ม:</label>
-        <input type="datetime-local" id="start-time">
-        <label for="end-time">เวลาสิ้นสุด:</label>
-        <input type="datetime-local" id="end-time">
-        <button onclick="updateVoteTime()">บันทึกเวลา</button>
-      </div>
-      
-      <div class="card">
-        <h2>เครื่องมือ</h2>
-        <button onclick="resetVotes()">รีเซ็ตคะแนนโหวตทั้งหมด</button>
-      </div>
-    </div>
-  </div>
+    <footer>
+        <p>© 2025 โรงเรียนภูหลวงวิทยา</p>
+    </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    let myChart = null;
-    
-    function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      google.script.run.withSuccessHandler(onLoginCheck).getAdminLogin();
-    }
-
-    function onLoginCheck(creds) {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      if (username === creds.username && password === creds.password) {
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('dashboard-section').style.display = 'block';
-        loadDashboardData();
-      } else {
-        document.getElementById('login-status').innerText = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
-      }
-    }
-
-    function loadDashboardData() {
-      google.script.run.withSuccessHandler(onDashboardDataLoaded).getAdminDashboardData();
-      google.script.run.withSuccessHandler(onVoteTimeLoaded).getVoteTime();
-    }
-
-    function onDashboardDataLoaded(data) {
-      document.getElementById('total-students').innerText = data.totalStudents;
-      document.getElementById('voted-students').innerText = data.votedStudents;
-      renderChart(data.voteResults);
-    }
-    
-    function onVoteTimeLoaded(timeConfig) {
-      document.getElementById('start-time').value = timeConfig.startTime.substring(0, 16);
-      document.getElementById('end-time').value = timeConfig.endTime.substring(0, 16);
-    }
-
-    function renderChart(results) {
-      const ctx = document.getElementById('vote-chart').getContext('2d');
-      const labels = results.map(res => res.candidate);
-      const votes = results.map(res => res.votes);
-      
-      if (myChart) {
-        myChart.destroy();
-      }
-
-      myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'คะแนนโหวต',
-            data: votes,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    }
-    
-    function updateVoteTime() {
-      const startTime = document.getElementById('start-time').value;
-      const endTime = document.getElementById('end-time').value;
-      google.script.run.withSuccessHandler(alert).updateVoteTime(startTime, endTime);
-    }
-
-    function resetVotes() {
-      if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตคะแนนโหวตทั้งหมด?")) {
-        google.script.run.withSuccessHandler(onResetComplete).resetVotes();
-      }
-    }
-
-    function onResetComplete(message) {
-      alert(message);
-      loadDashboardData(); // โหลดข้อมูลใหม่หลังจากรีเซ็ต
-    }
-  </script>
+    <script src="admin.js"></script>
 </body>
 </html>
