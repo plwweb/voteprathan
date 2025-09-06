@@ -1,114 +1,103 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ข้อมูลการศึกษาต่อ - {{ school_name }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <base target="_top">
+  <title>ข้อมูลการศึกษาต่อ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/">{{ school_name }}</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">หน้าหลัก</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login">เข้าสู่ระบบ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register">ลงทะเบียน</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-4">
-        <header class="text-center mb-4">
-            <h1>ระบบข้อมูลการศึกษาต่อของนักเรียนชั้น ม.6</h1>
-            <p class="lead">ปีการศึกษา {{ academic_year }}</p>
-        </header>
-
-        <div class="row text-center mb-4">
-            <div class="col-md-3"><div class="card p-3"><h5>นักเรียนทั้งหมด</h5><h2>{{ total_students }}</h2></div></div>
-            <div class="col-md-3"><div class="card p-3"><h5>ศึกษาต่อ</h5><h2>{{ students_continuing }}</h2></div></div>
-            <div class="col-md-3"><div class="card p-3"><h5>ไม่ศึกษาต่อ</h5><h2>{{ students_not_continuing }}</h2></div></div>
-            <div class="col-md-3"><div class="card p-3"><h5>จำนวนสถาบัน</h5><h2>{{ total_institutions }}</h2></div></div>
-        </div>
-
-        <div class="card card-body mb-4">
-            <form action="/" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="search" placeholder="ค้นหาด้วยรหัสนักเรียน, ชื่อ, สถาบัน, คณะ, สาขา..." value="{{ search_query }}">
-                    <button class="btn btn-primary" type="submit">ค้นหา</button>
-                </div>
-            </form>
-        </div>
-        
-        {% if student_data %}
-        <div class="mb-4">
-            <h4>ผลการค้นหา</h4>
-            <table class="table table-striped table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>รหัสนักเรียน</th>
-                        <th>ชื่อ-สกุล</th>
-                        <th>สถานะ</th>
-                        <th>สถาบัน</th>
-                        <th>คณะ</th>
-                        <th>สาขา</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in student_data %}
-                    <tr>
-                        <td>{{ student.student_id }}</td>
-                        <td>{{ student.full_name }}</td>
-                        <td>{{ student.status }}</td>
-                        <td>{{ student.institution or '-' }}</td>
-                        <td>{{ student.faculty or '-' }}</td>
-                        <td>{{ student.major or '-' }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
-
-        <div class="row">
-            <div class="col-md-4">
-                <h5>🏆 สถาบันยอดนิยม</h5>
-                <ul class="list-group">
-                    {% for name, count in top_institutions.items() %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ name }} <span class="badge bg-primary rounded-pill">{{ count }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>🏆 คณะยอดนิยม</h5>
-                <ul class="list-group">
-                    {% for name, count in top_faculties.items() %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ name }} <span class="badge bg-primary rounded-pill">{{ count }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>🏆 สาขาวิชายอดนิยม</h5>
-                <ul class="list-group">
-                    {% for name, count in top_majors.items() %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ name }} <span class="badge bg-primary rounded-pill">{{ count }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+  <div class="container">
+    <div class="header">
+      <img src="https://example.com/school-logo.png" alt="School Logo" class="logo">
+      <h1>ข้อมูลการศึกษาต่อ โรงเรียนภูหลวงวิทยา</h1>
+    </div>
+    <div class="summary-cards">
+      <div class="card">
+        <h3>จำนวนนักเรียนทั้งหมด</h3>
+        <p id="totalStudents">...</p>
+      </div>
+      <div class="card">
+        <h3>ศึกษาต่อ</h3>
+        <p id="continuingStudents">...</p>
+      </div>
+      <div class="card">
+        <h3>ไม่ศึกษาต่อ</h3>
+        <p id="nonContinuingStudents">...</p>
+      </div>
     </div>
 
-    <footer class="text-center mt-5 mb-3">
-        <p>&copy; 2024 {{ school_name }}. All Rights Reserved.</p>
-    </footer>
+    <div class="search-section">
+      <input type="text" id="searchInput" placeholder="ค้นหาชื่อ, สถาบัน, คณะ, รหัส...">
+      <button onclick="searchData()">ค้นหา</button>
+    </div>
 
+    <div id="searchResults" class="table-container">
+      </div>
+
+    <div class="charts-section">
+      <h2>อันดับสถาบันการศึกษายอดนิยม</h2>
+      <div id="popularSchools"></div>
+      <h2>อันดับคณะยอดนิยม</h2>
+      <div id="popularFaculties"></div>
+      <h2>อันดับสาขาวิชายอดนิยม</h2>
+      <div id="popularMajors"></div>
+    </div>
+
+    <div class="login-section">
+      <button onclick="showLoginModal()">เข้าสู่ระบบ</button>
+    </div>
+
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeLoginModal()">&times;</span>
+        <h2>เข้าสู่ระบบ</h2>
+        <input type="text" id="username" placeholder="ชื่อผู้ใช้">
+        <input type="password" id="password" placeholder="รหัสผ่าน">
+        <button onclick="login()">เข้าสู่ระบบ</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // JavaScript สำหรับจัดการข้อมูลและ UI
+    document.addEventListener('DOMContentLoaded', () => {
+      google.script.run.withSuccessHandler(displaySummary).getData();
+    });
+
+    function displaySummary(data) {
+      const students = data.slice(1); // ข้อมูลนักเรียน
+      document.getElementById('totalStudents').innerText = students.length;
+      const continuing = students.filter(s => s[5] === true).length;
+      document.getElementById('continuingStudents').innerText = continuing;
+      document.getElementById('nonContinuingStudents').innerText = students.length - continuing;
+      
+      // ฟังก์ชันสำหรับแสดงอันดับยอดนิยม
+      displayPopularRankings(students);
+    }
+
+    function searchData() {
+      const query = document.getElementById('searchInput').value;
+      google.script.run.withSuccessHandler(displaySearchResults).searchData(query);
+    }
+
+    function displaySearchResults(results) {
+      const resultsDiv = document.getElementById('searchResults');
+      resultsDiv.innerHTML = '';
+      if (results.length > 1) {
+        let tableHtml = '<table><thead><tr><th>รหัสนักเรียน</th><th>ชื่อ-นามสกุล</th><th>สถาบัน</th><th>คณะ</th><th>สาขาวิชา</th></tr></thead><tbody>';
+        for (let i = 1; i < results.length; i++) {
+          tableHtml += `<tr><td>${results[i][0]}</td><td>${results[i][1]}</td><td>${results[i][2]}</td><td>${results[i][3]}</td><td>${results[i][4]}</td></tr>`;
+        }
+        tableHtml += '</tbody></table>';
+        resultsDiv.innerHTML = tableHtml;
+      } else {
+        resultsDiv.innerHTML = '<p>ไม่พบข้อมูล</p>';
+      }
+    }
+
+    // ฟังก์ชันอื่นๆ เช่น login, displayPopularRankings
+  </script>
 </body>
 </html>
