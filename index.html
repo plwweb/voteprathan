@@ -1,103 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <base target="_top">
-  <title>ข้อมูลการศึกษาต่อ</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลการศึกษาต่อ ม.6 โรงเรียนภูหลวงวิทยา</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <img src="https://example.com/school-logo.png" alt="School Logo" class="logo">
-      <h1>ข้อมูลการศึกษาต่อ โรงเรียนภูหลวงวิทยา</h1>
+    <header>
+        <h1>ระบบข้อมูลการศึกษาต่อ</h1>
+        <p>โรงเรียนภูหลวงวิทยา</p>
+    </header>
+
+    <main>
+        <section id="dashboard">
+            <div class="card">
+                <h3>จำนวนนักเรียนทั้งหมด</h3>
+                <p id="total-students">0</p>
+            </div>
+            <div class="card">
+                <h3>ศึกษาต่อ</h3>
+                <p id="students-continue">0</p>
+            </div>
+            <div class="card">
+                <h3>ไม่ได้ศึกษาต่อ</h3>
+                <p id="students-not-continue">0</p>
+            </div>
+            <div class="card">
+                <h3>จำนวนสถาบัน</h3>
+                <p id="total-universities">0</p>
+            </div>
+        </section>
+
+        <section id="search-section">
+            <input type="text" id="searchInput" placeholder="ค้นหาชื่อ, สถาบัน, คณะ, สาขา...">
+            <button onclick="searchData()">ค้นหา</button>
+        </section>
+        
+        <section id="student-data-display">
+            <h2>ข้อมูลการศึกษาต่อของนักเรียน</h2>
+            <table id="student-table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ-สกุล</th>
+                        <th>สถาบัน</th>
+                        <th>คณะ</th>
+                        <th>สาขาวิชา</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
+
+        <section id="rankings">
+            <h2>สถิติยอดนิยม</h2>
+            <div class="rank-container">
+                <div class="rank-card">
+                    <h3>สถาบันยอดนิยม</h3>
+                    <ol id="top-universities"></ol>
+                </div>
+                <div class="rank-card">
+                    <h3>คณะยอดนิยม</h3>
+                    <ol id="top-faculties"></ol>
+                </div>
+                <div class="rank-card">
+                    <h3>สาขาวิชายอดนิยม</h3>
+                    <ol id="top-majors"></ol>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>เข้าสู่ระบบ</h2>
+            <input type="text" id="username" placeholder="รหัสนักเรียน">
+            <input type="password" id="password" placeholder="รหัสผ่าน">
+            <button id="login-btn">เข้าสู่ระบบ</button>
+        </div>
     </div>
-    <div class="summary-cards">
-      <div class="card">
-        <h3>จำนวนนักเรียนทั้งหมด</h3>
-        <p id="totalStudents">...</p>
-      </div>
-      <div class="card">
-        <h3>ศึกษาต่อ</h3>
-        <p id="continuingStudents">...</p>
-      </div>
-      <div class="card">
-        <h3>ไม่ศึกษาต่อ</h3>
-        <p id="nonContinuingStudents">...</p>
-      </div>
+    
+    <button id="show-login-btn">นักเรียนเข้าสู่ระบบ</button>
+
+    <div id="student-sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h3>เมนูนักเรียน</h3>
+        <a href="#" id="add-data-link">กรอกข้อมูลการศึกษาต่อ</a>
+        <a href="#" id="logout-btn">ออกจากระบบ</a>
     </div>
-
-    <div class="search-section">
-      <input type="text" id="searchInput" placeholder="ค้นหาชื่อ, สถาบัน, คณะ, รหัส...">
-      <button onclick="searchData()">ค้นหา</button>
-    </div>
-
-    <div id="searchResults" class="table-container">
-      </div>
-
-    <div class="charts-section">
-      <h2>อันดับสถาบันการศึกษายอดนิยม</h2>
-      <div id="popularSchools"></div>
-      <h2>อันดับคณะยอดนิยม</h2>
-      <div id="popularFaculties"></div>
-      <h2>อันดับสาขาวิชายอดนิยม</h2>
-      <div id="popularMajors"></div>
-    </div>
-
-    <div class="login-section">
-      <button onclick="showLoginModal()">เข้าสู่ระบบ</button>
-    </div>
-
-    <div id="loginModal" class="modal">
-      <div class="modal-content">
-        <span class="close-button" onclick="closeLoginModal()">&times;</span>
-        <h2>เข้าสู่ระบบ</h2>
-        <input type="text" id="username" placeholder="ชื่อผู้ใช้">
-        <input type="password" id="password" placeholder="รหัสผ่าน">
-        <button onclick="login()">เข้าสู่ระบบ</button>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    // JavaScript สำหรับจัดการข้อมูลและ UI
-    document.addEventListener('DOMContentLoaded', () => {
-      google.script.run.withSuccessHandler(displaySummary).getData();
-    });
-
-    function displaySummary(data) {
-      const students = data.slice(1); // ข้อมูลนักเรียน
-      document.getElementById('totalStudents').innerText = students.length;
-      const continuing = students.filter(s => s[5] === true).length;
-      document.getElementById('continuingStudents').innerText = continuing;
-      document.getElementById('nonContinuingStudents').innerText = students.length - continuing;
-      
-      // ฟังก์ชันสำหรับแสดงอันดับยอดนิยม
-      displayPopularRankings(students);
-    }
-
-    function searchData() {
-      const query = document.getElementById('searchInput').value;
-      google.script.run.withSuccessHandler(displaySearchResults).searchData(query);
-    }
-
-    function displaySearchResults(results) {
-      const resultsDiv = document.getElementById('searchResults');
-      resultsDiv.innerHTML = '';
-      if (results.length > 1) {
-        let tableHtml = '<table><thead><tr><th>รหัสนักเรียน</th><th>ชื่อ-นามสกุล</th><th>สถาบัน</th><th>คณะ</th><th>สาขาวิชา</th></tr></thead><tbody>';
-        for (let i = 1; i < results.length; i++) {
-          tableHtml += `<tr><td>${results[i][0]}</td><td>${results[i][1]}</td><td>${results[i][2]}</td><td>${results[i][3]}</td><td>${results[i][4]}</td></tr>`;
-        }
-        tableHtml += '</tbody></table>';
-        resultsDiv.innerHTML = tableHtml;
-      } else {
-        resultsDiv.innerHTML = '<p>ไม่พบข้อมูล</p>';
-      }
-    }
-
-    // ฟังก์ชันอื่นๆ เช่น login, displayPopularRankings
-  </script>
+    
+    <script src="script.js"></script>
 </body>
 </html>
