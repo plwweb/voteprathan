@@ -1,32 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <base target="_top">
-  <title>หน้าแอดมิน</title>
-  <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าผู้ดูแลระบบ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>หน้าแอดมิน</h1>
-    <div class="admin-section">
-      <h3>จัดการข่าวสาร</h3>
-      <input type="text" id="newsTitle" placeholder="หัวข้อข่าว">
-      <textarea id="newsContent" placeholder="เนื้อหาข่าว"></textarea>
-      <button onclick="addNews()">เพิ่มข่าวสาร</button>
-    </div>
+    <header>
+        <h1>หน้าผู้ดูแลระบบ</h1>
+        <p>โรงเรียนภูหลวงวิทยา</p>
+    </header>
 
-    <div class="admin-section">
-      <h3>จัดการข้อมูลนักเรียน</h3>
-      <div id="studentTable">
-        </div>
-      </div>
-  </div>
-  <script>
-    function addNews() {
-      const title = document.getElementById('newsTitle').value;
-      const content = document.getElementById('newsContent').value;
-      google.script.run.withSuccessHandler(alert).addNews({ title, content });
-    }
-  </script>
+    <main>
+        <section id="news-management">
+            <h2>จัดการข่าวประชาสัมพันธ์</h2>
+            <input type="text" id="news-title" placeholder="หัวข้อข่าว">
+            <textarea id="news-content" placeholder="เนื้อหาข่าว"></textarea>
+            <button id="add-news-btn">เพิ่มข่าว</button>
+        </section>
+        
+        <section id="student-management">
+            <h2>จัดการข้อมูลนักเรียน</h2>
+             <div class="search-container">
+                <input type="text" id="admin-search-input" placeholder="ค้นหาเพื่อแก้ไขหรือลบ...">
+                <button onclick="searchStudentForAdmin()">ค้นหา</button>
+            </div>
+            <table id="admin-student-table">
+                <thead>
+                    <tr>
+                        <th>รหัสนักเรียน</th>
+                        <th>ชื่อ-สกุล</th>
+                        <th>สถาบัน</th>
+                        <th>คณะ</th>
+                        <th>สาขา</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+    <script>
+        // เรียกใช้ฟังก์ชันสำหรับหน้า admin โดยเฉพาะ
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllStudentDataForAdmin(); 
+        });
+    </script>
 </body>
 </html>
