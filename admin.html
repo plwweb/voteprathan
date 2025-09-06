@@ -1,65 +1,32 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจัดการข้อมูลแนะแนว (สำหรับผู้ดูแล)</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+  <base target="_top">
+  <title>หน้าแอดมิน</title>
+  <?!= HtmlService.createHtmlOutputFromFile('style').getContent(); ?>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <h1>หน้าจัดการข้อมูลสำหรับผู้ดูแล</h1>
-            <p>เพิ่ม แก้ไข และลบข้อมูลการรับสมัคร</p>
+  <div class="container">
+    <h1>หน้าแอดมิน</h1>
+    <div class="admin-section">
+      <h3>จัดการข่าวสาร</h3>
+      <input type="text" id="newsTitle" placeholder="หัวข้อข่าว">
+      <textarea id="newsContent" placeholder="เนื้อหาข่าว"></textarea>
+      <button onclick="addNews()">เพิ่มข่าวสาร</button>
+    </div>
+
+    <div class="admin-section">
+      <h3>จัดการข้อมูลนักเรียน</h3>
+      <div id="studentTable">
         </div>
-    </header>
-
-    <main>
-        <div class="content-container">
-            <section class="admin-form">
-                <h2>จัดการข้อมูลการรับสมัคร</h2>
-                <form id="admissionForm">
-                    <input type="hidden" id="admissionId">
-                    <label for="uniName">ชื่อมหาวิทยาลัย:</label>
-                    <input type="text" id="uniName" required>
-
-                    <label for="faculty">คณะ/สาขาวิชา:</label>
-                    <input type="text" id="faculty" required>
-
-                    <label for="details">รายละเอียด:</label>
-                    <textarea id="details" rows="3" required></textarea>
-
-                    <label for="link">ลิงก์เว็บไซต์:</label>
-                    <input type="url" id="link" placeholder="เช่น https://www.example.com" required>
-
-                    <button type="submit" id="submitBtn">เพิ่มข้อมูล</button>
-                    <button type="button" id="cancelBtn" style="display:none;">ยกเลิก</button>
-                </form>
-            </section>
-
-            <section class="admin-table">
-                <h2>รายการข้อมูลทั้งหมด</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>มหาวิทยาลัย</th>
-                            <th>คณะ</th>
-                            <th>รายละเอียด</th>
-                            <th>จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTable">
-                        </tbody>
-                </table>
-            </section>
-        </div>
-    </main>
-
-    <footer>
-        <p>© 2025 โรงเรียนภูหลวงวิทยา</p>
-    </footer>
-
-    <script src="admin.js"></script>
+      </div>
+  </div>
+  <script>
+    function addNews() {
+      const title = document.getElementById('newsTitle').value;
+      const content = document.getElementById('newsContent').value;
+      google.script.run.withSuccessHandler(alert).addNews({ title, content });
+    }
+  </script>
 </body>
 </html>
