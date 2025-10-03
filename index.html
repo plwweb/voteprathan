@@ -1,97 +1,236 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ข้อมูลการศึกษาต่อ ม.6 โรงเรียนภูหลวงวิทยา</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>ระบบรายงานผลกีฬาภายใน ครั้งที่ 46 ร.ร.ภูหลวงวิทยา</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+        /* A simple style to make page transitions smoother */
+        .page-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <h1>ระบบข้อมูลการศึกษาต่อ</h1>
-        <p>โรงเรียนภูหลวงวิทยา</p>
+
+<body class="bg-gradient-to-br from-blue-700 via-blue-800 to-yellow-500 text-gray-800 font-sans">
+
+    <header class="bg-white/20 backdrop-blur-lg shadow-xl sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <h1 class="text-lg sm:text-xl font-bold text-white">ระบบรายงานผลการแข่งขันกีฬาภายในฯ</h1>
+            <div class="hidden md:flex space-x-4 text-white font-semibold">
+                <a href="#dashboard" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">แดชบอร์ด</a>
+                <a href="#results" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">ตารางผล</a>
+                <a href="#scoreboard" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">ตารางคะแนน</a>
+                <a href="#schedule" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">ตารางแข่ง</a>
+                <a href="#record" class="nav-link admin-only hidden p-2 rounded-md hover:bg-white/20 transition duration-300">บันทึกผล</a>
+                <a href="#admin-sports" class="nav-link admin-only hidden p-2 rounded-md hover:bg-white/20 transition duration-300">จัดการกีฬา</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden text-white text-2xl focus:outline-none">☰</button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-black/20">
+             </div>
     </header>
 
-    <main>
-        <section id="dashboard">
-            <div class="card">
-                <h3>จำนวนนักเรียนทั้งหมด</h3>
-                <p id="total-students">0</p>
-            </div>
-            <div class="card">
-                <h3>ศึกษาต่อ</h3>
-                <p id="students-continue">0</p>
-            </div>
-            <div class="card">
-                <h3>ไม่ได้ศึกษาต่อ</h3>
-                <p id="students-not-continue">0</p>
-            </div>
-            <div class="card">
-                <h3>จำนวนสถาบัน</h3>
-                <p id="total-universities">0</p>
-            </div>
-        </section>
-
-        <section id="search-section">
-            <input type="text" id="searchInput" placeholder="ค้นหาชื่อ, สถาบัน, คณะ, สาขา...">
-            <button onclick="searchData()">ค้นหา</button>
-        </section>
-        
-        <section id="student-data-display">
-            <h2>ข้อมูลการศึกษาต่อของนักเรียน</h2>
-            <table id="student-table">
-                <thead>
-                    <tr>
-                        <th>ชื่อ-สกุล</th>
-                        <th>สถาบัน</th>
-                        <th>คณะ</th>
-                        <th>สาขาวิชา</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    </tbody>
-            </table>
-        </section>
-
-        <section id="rankings">
-            <h2>สถิติยอดนิยม</h2>
-            <div class="rank-container">
-                <div class="rank-card">
-                    <h3>สถาบันยอดนิยม</h3>
-                    <ol id="top-universities"></ol>
-                </div>
-                <div class="rank-card">
-                    <h3>คณะยอดนิยม</h3>
-                    <ol id="top-faculties"></ol>
-                </div>
-                <div class="rank-card">
-                    <h3>สาขาวิชายอดนิยม</h3>
-                    <ol id="top-majors"></ol>
-                </div>
-            </div>
-        </section>
+    <main class="container mx-auto p-4 sm:p-6">
+        <section id="dashboard" class="page-content"></section>
+        <section id="results" class="page-content hidden"></section>
+        <section id="scoreboard" class="page-content hidden"></section>
+        <section id="schedule" class="page-content hidden"></section>
+        <section id="record" class="page-content hidden admin-only"></section>
+        <section id="admin-sports" class="page-content hidden admin-only"></section>
     </main>
 
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2>เข้าสู่ระบบ</h2>
-            <input type="text" id="username" placeholder="รหัสนักเรียน">
-            <input type="password" id="password" placeholder="รหัสผ่าน">
-            <button id="login-btn">เข้าสู่ระบบ</button>
-        </div>
-    </div>
-    
-    <button id="show-login-btn">นักเรียนเข้าสู่ระบบ</button>
+    <footer class="text-center text-white/80 py-4 mt-8">
+        <p>© 2025 โรงเรียนภูหลวงวิทยา</p>
+    </footer>
 
-    <div id="student-sidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <h3>เมนูนักเรียน</h3>
-        <a href="#" id="add-data-link">กรอกข้อมูลการศึกษาต่อ</a>
-        <a href="#" id="logout-btn">ออกจากระบบ</a>
-    </div>
-    
-    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            // --- CONFIGURATION ---
+            const GAS_URL = 'https://script.google.com/macros/s/AKfycbxRQdW_CHDAt1YCxpUpo1-nJRVYBukehEDUq5bZ1Ll1Pb7EKkW-wVcpm8-hmrsc0ZuWAw/exec';
+            // Simple check for admin rights (for a real app, use a proper login)
+            const IS_ADMIN = true; // Set to 'true' to see admin menus
+
+            // --- NAVIGATION ---
+            function showPage(pageId) {
+                $('.page-content').hide();
+                $('#' + pageId).show().trigger('page:load'); // Trigger custom event
+                // Update active link style
+                $('.nav-link').removeClass('bg-white/20');
+                $(`.nav-link[href="#${pageId}"]`).addClass('bg-white/20');
+            }
+
+            // Handle nav link clicks
+            $('.nav-link').on('click', function(e) {
+                e.preventDefault();
+                const pageId = $(this).attr('href').substring(1);
+                window.location.hash = pageId; // Update URL hash
+                showPage(pageId);
+                $('#mobile-menu').slideUp(); // Close mobile menu on click
+            });
+            
+            // Mobile menu toggle
+            $('#mobile-menu-button').on('click', function() {
+                $('#mobile-menu').slideToggle();
+            });
+            
+            // --- PAGE LOAD LOGIC ---
+
+            // Load content when a page is shown
+            $('#dashboard').on('page:load', fetchDashboardData);
+            $('#record').on('page:load', setupRecordForm);
+            // Add other page load triggers here...
+            // $('#results').on('page:load', fetchResultsData);
+
+
+            // --- FEATURES ---
+
+            // 1. Dashboard
+            function fetchDashboardData() {
+                const container = $('#dashboard');
+                container.html('<div class="text-white text-center p-10">🚀 กำลังโหลดข้อมูลแดชบอร์ด...</div>');
+                
+                fetch(`${GAS_URL}?action=getDashboardData`)
+                    .then(response => response.json())
+                    .then(data => {
+                        container.html(''); // Clear loading
+
+                        const statsHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
+                            <div class="bg-white/20 p-6 rounded-xl shadow-lg text-center">
+                                <h3 class="text-4xl font-bold">${data.totalMatches}</h3>
+                                <p>การแข่งขันที่เสร็จสิ้น</p>
+                            </div>
+                            <div class="bg-white/20 p-6 rounded-xl shadow-lg text-center">
+                                <h3 class="text-4xl font-bold">${data.sportTypes}</h3>
+                                <p>ชนิดกีฬา</p>
+                            </div>
+                            <div class="bg-white/20 p-6 rounded-xl shadow-lg text-center">
+                                <h3 class="text-4xl font-bold text-yellow-300">${data.topTeam}</h3>
+                                <p>คณะสีที่คะแนนนำ</p>
+                            </div>
+                        </div>`;
+
+                        const chartHtml = `
+                        <div class="bg-white/20 p-4 sm:p-6 mt-6 rounded-xl shadow-lg">
+                            <h2 class="text-white text-xl font-bold mb-4">สรุปคะแนนรวมแต่ละคณะสี</h2>
+                            <canvas id="scoreChart"></canvas>
+                        </div>`;
+                        
+                        container.append(statsHtml, chartHtml);
+
+                        new Chart(document.getElementById('scoreChart'), {
+                            type: 'bar',
+                            data: {
+                                labels: data.scores.map(s => s.คณะสี),
+                                datasets: [{
+                                    label: 'คะแนนรวม',
+                                    data: data.scores.map(s => s.คะแนนรวม),
+                                    backgroundColor: ['#ef4444', '#3b82f6', '#facc15', '#22c55e', '#a855f7'],
+                                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: { 
+                                    y: { beginAtZero: true, ticks: { color: 'white' } },
+                                    x: { ticks: { color: 'white' } }
+                                },
+                                plugins: { legend: { labels: { color: 'white' } } }
+                            }
+                        });
+                    }).catch(error => {
+                        container.html('<div class="text-red-400 text-center p-10">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>');
+                    });
+            }
+
+            // 2. Record Form
+            function setupRecordForm() {
+                const container = $('#record');
+                // In a real app, fetch sports list from GAS and populate the dropdown
+                const formHtml = `
+                <div class="bg-white/20 p-8 rounded-xl shadow-lg max-w-lg mx-auto">
+                    <h2 class="text-2xl font-bold text-white mb-6 text-center">📝 บันทึกผลการแข่งขัน</h2>
+                    <form id="recordForm">
+                        <div class="mb-4">
+                            <label class="block text-white mb-2" for="sport">ชนิดกีฬา</label>
+                            <select name="sport" id="sport" class="w-full p-2 rounded bg-white/80 focus:outline-none" required>
+                                <option value="ฟุตบอล">ฟุตบอล</option>
+                                <option value="บาสเกตบอล">บาสเกตบอล</option>
+                                <option value="วอลเลย์บอล">วอลเลย์บอล</option>
+                                <option value="เปตอง">เปตอง</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-white mb-2" for="round">รอบการแข่งขัน</label>
+                            <select name="round" id="round" class="w-full p-2 rounded bg-white/80 focus:outline-none" required>
+                                <option value="รอบแรก">รอบแรก</option>
+                                <option value="รอบรองชนะเลิศ">รอบรองชนะเลิศ</option>
+                                <option value="รอบชิงชนะเลิศ">รอบชิงชนะเลิศ</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-yellow-500 text-blue-900 font-bold py-3 px-4 rounded-lg hover:bg-yellow-400 transition duration-300">
+                            บันทึกผล
+                        </button>
+                    </form>
+                </div>
+                `;
+                container.html(formHtml);
+
+                $('#recordForm').on('submit', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'กำลังบันทึกผล...',
+                        allowOutsideClick: false,
+                        didOpen: () => Swal.showLoading()
+                    });
+
+                    const formData = new FormData(this);
+                    formData.append('action', 'recordResult');
+
+                    fetch(GAS_URL, { method: 'POST', body: formData })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.success) {
+                                Swal.fire('สำเร็จ!', 'บันทึกผลเรียบร้อย', 'success');
+                                $('#recordForm')[0].reset();
+                                fetchDashboardData(); // Refresh dashboard after recording
+                            } else {
+                                Swal.fire('ผิดพลาด!', data.message || 'ไม่สามารถบันทึกได้', 'error');
+                            }
+                        });
+                });
+            }
+
+            // --- INITIALIZATION ---
+            function initializeApp() {
+                // Show/hide admin elements
+                if (IS_ADMIN) {
+                    $('.admin-only').show();
+                }
+
+                // Clone nav links for mobile menu
+                $('.nav-link').clone().appendTo('#mobile-menu').addClass('block p-4');
+
+                // Handle initial page load based on URL hash
+                const initialPage = window.location.hash ? window.location.hash.substring(1) : 'dashboard';
+                showPage(initialPage);
+            }
+
+            initializeApp();
+        });
+    </script>
 </body>
 </html>
