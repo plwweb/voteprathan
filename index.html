@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client-Side PDF Toolkit</title>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         /* --- General Styling --- */
         :root {
@@ -42,6 +43,7 @@
         /* --- Navigation --- */
         nav {
             display: flex;
+            flex-wrap: wrap; /* For responsiveness on small screens */
             background-color: #fff;
             border-bottom: 1px solid #dee2e6;
         }
@@ -58,6 +60,7 @@
             border-bottom: 3px solid transparent;
             transition: all 0.2s ease-in-out;
             color: var(--secondary-color);
+            min-width: 120px;
         }
 
         nav button:hover {
@@ -166,7 +169,7 @@
             font-weight: 500;
         }
 
-        .input-group input {
+        .input-group input, .input-group select {
             width: 100%;
             padding: 0.5rem;
             font-size: 1rem;
@@ -225,6 +228,8 @@
             <button id="nav-merge" class="nav-btn active" data-tool="merge">รวมไฟล์ PDF</button>
             <button id="nav-split" class="nav-btn" data-tool="split">แยกไฟล์ PDF</button>
             <button id="nav-compress" class="nav-btn" data-tool="compress">บีบอัด PDF</button>
+            <button id="nav-rotate" class="nav-btn" data-tool="rotate">หมุนหน้า PDF</button>
+            <button id="nav-image-to-pdf" class="nav-btn" data-tool="image-to-pdf">รูปภาพเป็น PDF</button>
         </nav>
 
         <div id="merge-tool" class="tool-panel">
@@ -244,6 +249,28 @@
         <div id="compress-tool" class="tool-panel hidden">
             <h2>บีบอัด PDF</h2>
             <p>ลดขนาดไฟล์ PDF ของคุณ (การบีบอัดระดับพื้นฐาน)</p>
+        </div>
+        
+        <div id="rotate-tool" class="tool-panel hidden">
+            <h2>หมุนหน้า PDF</h2>
+            <p>เลือกองศาและหน้าที่ต้องการหมุน</p>
+            <div class="input-group">
+                <label for="rotate-pages">หน้าที่ต้องการหมุน (เช่น 1, 3-5, หรือ all สำหรับทุกหน้า)</label>
+                <input type="text" id="rotate-pages" placeholder="all">
+            </div>
+            <div class="input-group">
+                <label for="rotate-angle">องศาที่ต้องการหมุน</label>
+                <select id="rotate-angle">
+                    <option value="90">90° ตามเข็มนาฬิกา</option>
+                    <option value="180">180°</option>
+                    <option value="270">270° ตามเข็มนาฬิกา (หรือ 90° ทวนเข็ม)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="image-to-pdf-tool" class="tool-panel hidden">
+            <h2>แปลงรูปภาพเป็น PDF</h2>
+            <p>อัปโหลดไฟล์ JPG หรือ PNG เพื่อรวมเป็นเอกสาร PDF เดียว</p>
         </div>
 
         <div id="shared-ui" class="tool-panel">
@@ -265,7 +292,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- GLOBAL VARIABLES & CONSTANTS ---
-            const { PDFDocument } = PDFLib;
+            const { PDFDocument, degrees } = PDFLib;
             let currentTool = 'merge';
             let selectedFiles = [];
 
@@ -279,18 +306,14 @@
             const actionBtn = document.getElementById('action-btn');
             const statusDiv = document.getElementById('status');
             const pageRangesInput = document.getElementById('page-ranges');
+            const rotatePagesInput = document.getElementById('rotate-pages');
+            const rotateAngleSelect = document.getElementById('rotate-angle');
             
             // --- INITIALIZATION ---
-            // Move shared UI to the active panel initially
             document.getElementById('merge-tool').appendChild(sharedUI);
             updateActionButtonText();
             
             // --- HELPER FUNCTIONS ---
-            /**
-             * Triggers a browser download for a file created in memory.
-             * @param {Uint8Array} bytes - The file content as a byte array.
-             * @param {string} fileName - The desired name for the downloaded file.
-             */
             const triggerDownload = (bytes, fileName) => {
                 const blob = new Blob([bytes], { type: 'application/pdf' });
                 const link = document.createElement('a');
@@ -301,81 +324,75 @@
                 document.body.removeChild(link);
             };
 
-            /**
-             * Displays status messages to the user.
-             * @param {string} type - 'processing', 'success', or 'error'.
-             * @param {string} message - The message to display.
-             */
             const showStatus = (type, message) => {
-                statusDiv.className = ''; // Reset classes
+                statusDiv.className = '';
                 statusDiv.classList.add(type);
-                
-                let content = '';
-                if (type === 'processing') {
-                    content = `<div class="loader"></div> ${message}`;
-                } else {
-                    content = message;
-                }
+                let content = type === 'processing' ? `<div class="loader"></div> ${message}` : message;
                 statusDiv.innerHTML = content;
                 statusDiv.classList.remove('hidden');
             };
 
-            /** Hides the status message area. */
-            const hideStatus = () => {
-                statusDiv.classList.add('hidden');
-            };
+            const hideStatus = () => statusDiv.classList.add('hidden');
             
-            /** Resets the UI to its initial state. */
             const resetUI = () => {
                 selectedFiles = [];
                 fileList.innerHTML = '';
-                fileInput.value = ''; // Reset file input
+                fileInput.value = '';
                 actionBtn.disabled = true;
                 pageRangesInput.value = '';
+                rotatePagesInput.value = '';
                 hideStatus();
             };
 
-            /** Updates the text of the main action button based on the current tool. */
             const updateActionButtonText = () => {
                 switch(currentTool) {
-                    case 'merge':
-                        actionBtn.textContent = 'รวมไฟล์ PDF';
-                        break;
-                    case 'split':
-                        actionBtn.textContent = 'แยกไฟล์ PDF';
-                        break;
-                    case 'compress':
-                        actionBtn.textContent = 'บีบอัดไฟล์';
-                        break;
+                    case 'merge': actionBtn.textContent = 'รวมไฟล์ PDF'; break;
+                    case 'split': actionBtn.textContent = 'แยกไฟล์ PDF'; break;
+                    case 'compress': actionBtn.textContent = 'บีบอัดไฟล์'; break;
+                    case 'rotate': actionBtn.textContent = 'หมุนหน้า PDF'; break;
+                    case 'image-to-pdf': actionBtn.textContent = 'สร้างไฟล์ PDF'; break;
                 }
             };
 
-            /** Updates the file list display. */
             const renderFileList = () => {
                 fileList.innerHTML = '';
                 selectedFiles.forEach(file => {
                     const li = document.createElement('li');
-                    const fileSize = (file.size / 1024 / 1024).toFixed(2); // in MB
+                    const fileSize = (file.size / 1024 / 1024).toFixed(2);
                     li.textContent = `${file.name} (${fileSize} MB)`;
                     fileList.appendChild(li);
                 });
                 actionBtn.disabled = selectedFiles.length === 0;
             };
 
-            /**
-             * Handles file selection from both click and drag-and-drop.
-             * @param {FileList} files - The list of files from the event.
-             */
             const handleFileSelect = (files) => {
                 hideStatus();
-                // For split and compress, only allow one file
-                if (currentTool !== 'merge' && files.length > 1) {
+                const singleFileTools = ['split', 'compress', 'rotate'];
+                if (singleFileTools.includes(currentTool) && files.length > 1) {
                     showStatus('error', 'เครื่องมือนี้รองรับเพียง 1 ไฟล์เท่านั้น');
                     return;
                 }
-                
                 selectedFiles = Array.from(files);
                 renderFileList();
+            };
+
+            const parsePageRanges = (rangeString, maxPage) => {
+                const pages = new Set();
+                if (!rangeString) throw new Error("กรุณาระบุช่วงของหน้า");
+                const parts = rangeString.split(',');
+                for (const part of parts) {
+                    const trimmedPart = part.trim();
+                    if (trimmedPart.includes('-')) {
+                        const [start, end] = trimmedPart.split('-').map(num => parseInt(num.trim(), 10));
+                        if (isNaN(start) || isNaN(end) || start > end || start < 1 || end > maxPage) throw new Error(`ช่วงของหน้าไม่ถูกต้อง: "${trimmedPart}"`);
+                        for (let i = start; i <= end; i++) pages.add(i - 1);
+                    } else {
+                        const pageNum = parseInt(trimmedPart, 10);
+                        if (isNaN(pageNum) || pageNum < 1 || pageNum > maxPage) throw new Error(`หมายเลขหน้าไม่ถูกต้อง: "${trimmedPart}"`);
+                        pages.add(pageNum - 1);
+                    }
+                }
+                return Array.from(pages).sort((a, b) => a - b);
             };
 
             // --- TOOL-SPECIFIC LOGIC ---
@@ -387,18 +404,14 @@
                     return;
                 }
                 showStatus('processing', 'กำลังรวมไฟล์...');
-
                 try {
                     const mergedPdf = await PDFDocument.create();
                     for (const file of selectedFiles) {
-                        const arrayBuffer = await file.arrayBuffer();
-                        const pdf = await PDFDocument.load(arrayBuffer);
+                        const pdf = await PDFDocument.load(await file.arrayBuffer());
                         const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                         copiedPages.forEach(page => mergedPdf.addPage(page));
                     }
-
-                    const mergedPdfBytes = await mergedPdf.save();
-                    triggerDownload(mergedPdfBytes, 'merged.pdf');
+                    triggerDownload(await mergedPdf.save(), 'merged.pdf');
                     showStatus('success', 'รวมไฟล์สำเร็จ!');
                 } catch (err) {
                     console.error(err);
@@ -407,67 +420,20 @@
             };
             
             /** 2. SPLIT PDF LOGIC */
-            /**
-             * Parses a page range string (e.g., "1-3, 5") into an array of zero-based page indices.
-             * @param {string} rangeString - The user-provided string.
-             * @param {number} maxPage - The total number of pages in the document.
-             * @returns {number[]} An array of page indices.
-             */
-            const parsePageRanges = (rangeString, maxPage) => {
-                const pages = new Set();
-                const parts = rangeString.split(',');
-                
-                for (const part of parts) {
-                    const trimmedPart = part.trim();
-                    if (trimmedPart.includes('-')) {
-                        const [start, end] = trimmedPart.split('-').map(num => parseInt(num.trim(), 10));
-                        if (isNaN(start) || isNaN(end) || start > end || start < 1 || end > maxPage) {
-                            throw new Error(`ช่วงของหน้าไม่ถูกต้อง: "${trimmedPart}"`);
-                        }
-                        for (let i = start; i <= end; i++) {
-                            pages.add(i - 1); // pdf-lib is 0-indexed
-                        }
-                    } else {
-                        const pageNum = parseInt(trimmedPart, 10);
-                        if (isNaN(pageNum) || pageNum < 1 || pageNum > maxPage) {
-                           throw new Error(`หมายเลขหน้าไม่ถูกต้อง: "${trimmedPart}"`);
-                        }
-                        pages.add(pageNum - 1); // pdf-lib is 0-indexed
-                    }
-                }
-                return Array.from(pages).sort((a, b) => a - b);
-            };
-
             const splitPdf = async () => {
-                if (selectedFiles.length !== 1) {
-                    showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์');
-                    return;
-                }
-                const rangeString = pageRangesInput.value;
-                if (!rangeString) {
-                    showStatus('error', 'กรุณากรอกหน้าที่ต้องการ');
-                    return;
-                }
+                if (selectedFiles.length !== 1) { showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์'); return; }
+                if (!pageRangesInput.value) { showStatus('error', 'กรุณากรอกหน้าที่ต้องการ'); return; }
                 showStatus('processing', 'กำลังแยกหน้า...');
-
                 try {
-                    const file = selectedFiles[0];
-                    const arrayBuffer = await file.arrayBuffer();
-                    const existingPdf = await PDFDocument.load(arrayBuffer);
-                    
-                    const pageIndices = parsePageRanges(rangeString, existingPdf.getPageCount());
-                    
-                    if(pageIndices.length === 0) {
-                        showStatus('error', 'ไม่พบหน้าที่ต้องการตามรูปแบบที่กรอก');
-                        return;
-                    }
+                    const existingPdf = await PDFDocument.load(await selectedFiles[0].arrayBuffer());
+                    const pageIndices = parsePageRanges(pageRangesInput.value, existingPdf.getPageCount());
+                    if (pageIndices.length === 0) { showStatus('error', 'ไม่พบหน้าที่ต้องการ'); return; }
                     
                     const newPdf = await PDFDocument.create();
                     const copiedPages = await newPdf.copyPages(existingPdf, pageIndices);
                     copiedPages.forEach(page => newPdf.addPage(page));
-
-                    const newPdfBytes = await newPdf.save();
-                    triggerDownload(newPdfBytes, 'split.pdf');
+                    
+                    triggerDownload(await newPdf.save(), 'split.pdf');
                     showStatus('success', 'แยกหน้าสำเร็จ!');
                 } catch (err) {
                     console.error(err);
@@ -477,88 +443,131 @@
             
             /** 3. COMPRESS PDF LOGIC */
             const compressPdf = async () => {
-                if (selectedFiles.length !== 1) {
-                    showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์');
-                    return;
-                }
+                if (selectedFiles.length !== 1) { showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์'); return; }
                 showStatus('processing', 'กำลังบีบอัดไฟล์...');
-
                 try {
                     const file = selectedFiles[0];
-                    const originalSize = file.size;
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(arrayBuffer);
-
-                    // Re-saving with object streams can reduce file size.
+                    const pdfDoc = await PDFDocument.load(await file.arrayBuffer());
                     const compressedBytes = await pdfDoc.save({ useObjectStreams: true });
-                    const newSize = compressedBytes.length;
-
+                    const reduction = (((file.size - compressedBytes.length) / file.size) * 100).toFixed(2);
                     triggerDownload(compressedBytes, 'compressed.pdf');
-
-                    const reduction = (((originalSize - newSize) / originalSize) * 100).toFixed(2);
                     showStatus('success', `บีบอัดสำเร็จ! ลดขนาดลง ${reduction}%`);
-
                 } catch (err) {
                     console.error(err);
                     showStatus('error', 'เกิดข้อผิดพลาดในการบีบอัดไฟล์');
                 }
             };
 
-            // --- EVENT LISTENERS ---
+            /** 4. ROTATE PDF LOGIC */
+            const rotatePdf = async () => {
+                if (selectedFiles.length !== 1) { showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์'); return; }
+                showStatus('processing', 'กำลังหมุนหน้าเอกสาร...');
+                try {
+                    const pdfDoc = await PDFDocument.load(await selectedFiles[0].arrayBuffer());
+                    const pageCount = pdfDoc.getPageCount();
+                    let pageIndices;
+                    const pagesToRotate = rotatePagesInput.value.trim().toLowerCase() || 'all';
 
-            // Navigation switching
+                    if (pagesToRotate === 'all') {
+                        pageIndices = pdfDoc.getPageIndices();
+                    } else {
+                        pageIndices = parsePageRanges(pagesToRotate, pageCount);
+                    }
+
+                    const angle = parseInt(rotateAngleSelect.value, 10);
+                    pageIndices.forEach(pageIndex => {
+                        const page = pdfDoc.getPage(pageIndex);
+                        page.setRotation(degrees(page.getRotation().angle + angle));
+                    });
+
+                    triggerDownload(await pdfDoc.save(), 'rotated.pdf');
+                    showStatus('success', 'หมุนหน้าเอกสารสำเร็จ!');
+                } catch (err) {
+                    console.error(err);
+                    showStatus('error', err.message || 'เกิดข้อผิดพลาดในการหมุนหน้าเอกสาร');
+                }
+            };
+
+            /** 5. IMAGE TO PDF LOGIC */
+            const convertImagesToPdf = async () => {
+                if (selectedFiles.length === 0) { showStatus('error', 'กรุณาเลือกไฟล์รูปภาพ'); return; }
+                showStatus('processing', 'กำลังแปลงรูปภาพเป็น PDF...');
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    
+                    for (let i = 0; i < selectedFiles.length; i++) {
+                        const file = selectedFiles[i];
+                        const image = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = e => resolve(e.target.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(file);
+                        });
+
+                        const img = new Image();
+                        img.src = image;
+                        await new Promise(resolve => { img.onload = resolve; });
+
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        const ratio = Math.min(pageWidth / img.width, pageHeight / img.height);
+                        const imgWidth = img.width * ratio;
+                        const imgHeight = img.height * ratio;
+
+                        if (i > 0) pdf.addPage();
+                        pdf.addImage(image, 'JPEG', (pageWidth - imgWidth) / 2, (pageHeight - imgHeight) / 2, imgWidth, imgHeight);
+                    }
+                    pdf.save('converted-images.pdf');
+                    showStatus('success', 'แปลงรูปภาพเป็น PDF สำเร็จ!');
+                } catch (err) {
+                    console.error(err);
+                    showStatus('error', 'เกิดข้อผิดพลาดในการแปลงไฟล์รูปภาพ');
+                }
+            };
+
+
+            // --- EVENT LISTENERS ---
             navButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    // Update active button
                     navButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-
-                    // Switch tool
                     currentTool = button.dataset.tool;
                     resetUI();
                     updateActionButtonText();
                     
-                    // Show correct panel and move shared UI into it
                     toolPanels.forEach(panel => panel.classList.add('hidden'));
                     const activePanel = document.getElementById(`${currentTool}-tool`);
                     activePanel.classList.remove('hidden');
                     activePanel.appendChild(sharedUI);
                     
-                    // Update file input based on tool
-                    fileInput.multiple = (currentTool === 'merge');
+                    if (currentTool === 'image-to-pdf') {
+                        fileInput.accept = ".jpg, .jpeg, .png";
+                        fileInput.multiple = true;
+                    } else {
+                        fileInput.accept = ".pdf";
+                        fileInput.multiple = (currentTool === 'merge');
+                    }
                 });
             });
 
-            // Upload Area listeners
             uploadArea.addEventListener('click', () => fileInput.click());
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.classList.add('dragover');
-            });
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.classList.remove('dragover');
-            });
+            uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+            uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadArea.classList.remove('dragover');
                 handleFileSelect(e.dataTransfer.files);
             });
-            fileInput.addEventListener('change', (e) => {
-                handleFileSelect(e.target.files);
-            });
+            fileInput.addEventListener('change', (e) => handleFileSelect(e.target.files));
 
-            // Action Button listener
             actionBtn.addEventListener('click', () => {
                 switch (currentTool) {
-                    case 'merge':
-                        mergePdfs();
-                        break;
-                    case 'split':
-                        splitPdf();
-                        break;
-                    case 'compress':
-                        compressPdf();
-                        break;
+                    case 'merge': mergePdfs(); break;
+                    case 'split': splitPdf(); break;
+                    case 'compress': compressPdf(); break;
+                    case 'rotate': rotatePdf(); break;
+                    case 'image-to-pdf': convertImagesToPdf(); break;
                 }
             });
         });
