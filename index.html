@@ -1,235 +1,566 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบรายงานผลกีฬาภายใน ครั้งที่ 46 ร.ร.ภูหลวงวิทยา</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
+    <title>Client-Side PDF Toolkit</title>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <style>
-        /* A simple style to make page transitions smoother */
-        .page-content {
-            animation: fadeIn 0.5s ease-in-out;
+        /* --- General Styling --- */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --border-radius: 0.5rem;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            min-height: 100vh;
         }
+
+        main {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            background-color: #fff;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        nav button {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease-in-out;
+            color: var(--secondary-color);
+        }
+
+        nav button:hover {
+            background-color: var(--light-color);
+        }
+
+        nav button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        /* --- Tool Panels --- */
+        .tool-panel {
+            padding: 2rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--dark-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- File Upload Area --- */
+        #upload-area {
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        #upload-area.dragover {
+            background-color: #e9f5ff;
+            border-color: var(--primary-color);
+        }
+
+        #upload-area p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        /* --- File List --- */
+        #file-list {
+            margin-top: 1.5rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        #file-list li {
+            background-color: var(--light-color);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        /* --- Action Button & Inputs --- */
+        .action-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .action-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .action-btn:disabled {
+            background-color: #a0c9f7;
+            cursor: not-allowed;
+        }
+        
+        .action-btn:not(:disabled):hover {
+            background-color: #0056b3;
+        }
+        
+        .input-group {
+            margin-top: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /* --- Status Feedback --- */
+        #status {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        #status.processing {
+            background-color: #e9ecef;
+            color: var(--dark-color);
+        }
+
+        #status.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        #status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
+<body>
 
-<body class="bg-gradient-to-br from-blue-700 via-blue-800 to-yellow-500 text-gray-800 font-sans">
-
-    <header class="bg-white/20 backdrop-blur-lg shadow-xl sticky top-0 z-50">
-        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-            <h1 class="text-lg sm:text-xl font-bold text-white">ระบบรายงานผลการแข่งขันกีฬาภายในฯ</h1>
-            <div class="hidden md:flex space-x-4 text-white font-semibold">
-                <a href="#dashboard" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">แดชบอร์ด</a>
-                <a href="#results" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">ตารางผล</a>
-                <a href="#scoreboard" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">ตารางคะแนน</a>
-                <a href="#schedule" class="nav-link p-2 rounded-md hover:bg-white/20 transition duration-300">ตารางแข่ง</a>
-                <a href="#record" class="nav-link admin-only hidden p-2 rounded-md hover:bg-white/20 transition duration-300">บันทึกผล</a>
-                <a href="#admin-sports" class="nav-link admin-only hidden p-2 rounded-md hover:bg-white/20 transition duration-300">จัดการกีฬา</a>
-            </div>
-             <button id="mobile-menu-button" class="md:hidden text-white text-2xl focus:outline-none">☰</button>
+    <main>
+        <nav>
+            <button id="nav-merge" class="nav-btn active" data-tool="merge">รวมไฟล์ PDF</button>
+            <button id="nav-split" class="nav-btn" data-tool="split">แยกไฟล์ PDF</button>
+            <button id="nav-compress" class="nav-btn" data-tool="compress">บีบอัด PDF</button>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-black/20">
-             </div>
-    </header>
 
-    <main class="container mx-auto p-4 sm:p-6">
-        <section id="dashboard" class="page-content"></section>
-        <section id="results" class="page-content hidden"></section>
-        <section id="scoreboard" class="page-content hidden"></section>
-        <section id="schedule" class="page-content hidden"></section>
-        <section id="record" class="page-content hidden admin-only"></section>
-        <section id="admin-sports" class="page-content hidden admin-only"></section>
+        <div id="merge-tool" class="tool-panel">
+            <h2>รวมไฟล์ PDF</h2>
+            <p>รวม PDF หลายไฟล์ให้เป็นเอกสารเดียว</p>
+        </div>
+
+        <div id="split-tool" class="tool-panel hidden">
+            <h2>แยกไฟล์ PDF</h2>
+            <p>เลือกหน้าที่ต้องการจากไฟล์ PDF ของคุณ</p>
+            <div class="input-group">
+                <label for="page-ranges">หน้าที่ต้องการ (เช่น 1, 3-5, 8)</label>
+                <input type="text" id="page-ranges" placeholder="ตัวอย่าง: 1-3, 5">
+            </div>
+        </div>
+
+        <div id="compress-tool" class="tool-panel hidden">
+            <h2>บีบอัด PDF</h2>
+            <p>ลดขนาดไฟล์ PDF ของคุณ (การบีบอัดระดับพื้นฐาน)</p>
+        </div>
+
+        <div id="shared-ui" class="tool-panel">
+            <div id="upload-area">
+                <p>คลิกเพื่อเลือกไฟล์ หรือลากและวางไฟล์ที่นี่</p>
+                <input type="file" id="file-input" multiple accept=".pdf">
+            </div>
+
+            <ul id="file-list"></ul>
+            
+            <div id="status" class="hidden"></div>
+
+            <div class="action-container">
+                <button id="action-btn" class="action-btn" disabled>ดำเนินการ</button>
+            </div>
+        </div>
     </main>
 
-    <footer class="text-center text-white/80 py-4 mt-8">
-        <p>© 2025 โรงเรียนภูหลวงวิทยา</p>
-    </footer>
-
     <script>
-        $(document).ready(function() {
-            // --- CONFIGURATION ---
-            const GAS_URL = 'https://script.google.com/macros/s/AKfycbxRQdW_CHDAt1YCxpUpo1-nJRVYBukehEDUq5bZ1Ll1Pb7EKkW-wVcpm8-hmrsc0ZuWAw/exec';
-            // Simple check for admin rights (for a real app, use a proper login)
-            const IS_ADMIN = true; // Set to 'true' to see admin menus
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- GLOBAL VARIABLES & CONSTANTS ---
+            const { PDFDocument } = PDFLib;
+            let currentTool = 'merge';
+            let selectedFiles = [];
 
-            // --- NAVIGATION ---
-            function showPage(pageId) {
-                $('.page-content').hide();
-                $('#' + pageId).show().trigger('page:load'); // Trigger custom event
-                // Update active link style
-                $('.nav-link').removeClass('bg-white/20');
-                $(`.nav-link[href="#${pageId}"]`).addClass('bg-white/20');
-            }
-
-            // Handle nav link clicks
-            $('.nav-link').on('click', function(e) {
-                e.preventDefault();
-                const pageId = $(this).attr('href').substring(1);
-                window.location.hash = pageId; // Update URL hash
-                showPage(pageId);
-                $('#mobile-menu').slideUp(); // Close mobile menu on click
-            });
+            // --- DOM ELEMENTS ---
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const toolPanels = document.querySelectorAll('.tool-panel');
+            const sharedUI = document.getElementById('shared-ui');
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+            const fileList = document.getElementById('file-list');
+            const actionBtn = document.getElementById('action-btn');
+            const statusDiv = document.getElementById('status');
+            const pageRangesInput = document.getElementById('page-ranges');
             
-            // Mobile menu toggle
-            $('#mobile-menu-button').on('click', function() {
-                $('#mobile-menu').slideToggle();
-            });
-            
-            // --- PAGE LOAD LOGIC ---
-
-            // Load content when a page is shown
-            $('#dashboard').on('page:load', fetchDashboardData);
-            $('#record').on('page:load', setupRecordForm);
-            // Add other page load triggers here...
-            // $('#results').on('page:load', fetchResultsData);
-
-
-            // --- FEATURES ---
-
-            // 1. Dashboard
-            function fetchDashboardData() {
-                const container = $('#dashboard');
-                container.html('<div class="text-white text-center p-10">🚀 กำลังโหลดข้อมูลแดชบอร์ด...</div>');
-                
-                fetch(`${GAS_URL}?action=getDashboardData`)
-                    .then(response => response.json())
-                    .then(data => {
-                        container.html(''); // Clear loading
-
-                        const statsHtml = `
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
-                            <div class="bg-white/20 p-6 rounded-xl shadow-lg text-center">
-                                <h3 class="text-4xl font-bold">${data.totalMatches}</h3>
-                                <p>การแข่งขันที่เสร็จสิ้น</p>
-                            </div>
-                            <div class="bg-white/20 p-6 rounded-xl shadow-lg text-center">
-                                <h3 class="text-4xl font-bold">${data.sportTypes}</h3>
-                                <p>ชนิดกีฬา</p>
-                            </div>
-                            <div class="bg-white/20 p-6 rounded-xl shadow-lg text-center">
-                                <h3 class="text-4xl font-bold text-yellow-300">${data.topTeam}</h3>
-                                <p>คณะสีที่คะแนนนำ</p>
-                            </div>
-                        </div>`;
-
-                        const chartHtml = `
-                        <div class="bg-white/20 p-4 sm:p-6 mt-6 rounded-xl shadow-lg">
-                            <h2 class="text-white text-xl font-bold mb-4">สรุปคะแนนรวมแต่ละคณะสี</h2>
-                            <canvas id="scoreChart"></canvas>
-                        </div>`;
-                        
-                        container.append(statsHtml, chartHtml);
-
-                        new Chart(document.getElementById('scoreChart'), {
-                            type: 'bar',
-                            data: {
-                                labels: data.scores.map(s => s.คณะสี),
-                                datasets: [{
-                                    label: 'คะแนนรวม',
-                                    data: data.scores.map(s => s.คะแนนรวม),
-                                    backgroundColor: ['#ef4444', '#3b82f6', '#facc15', '#22c55e', '#a855f7'],
-                                    borderColor: 'rgba(255, 255, 255, 0.5)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: { 
-                                    y: { beginAtZero: true, ticks: { color: 'white' } },
-                                    x: { ticks: { color: 'white' } }
-                                },
-                                plugins: { legend: { labels: { color: 'white' } } }
-                            }
-                        });
-                    }).catch(error => {
-                        container.html('<div class="text-red-400 text-center p-10">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>');
-                    });
-            }
-
-            // 2. Record Form
-            function setupRecordForm() {
-                const container = $('#record');
-                // In a real app, fetch sports list from GAS and populate the dropdown
-                const formHtml = `
-                <div class="bg-white/20 p-8 rounded-xl shadow-lg max-w-lg mx-auto">
-                    <h2 class="text-2xl font-bold text-white mb-6 text-center">📝 บันทึกผลการแข่งขัน</h2>
-                    <form id="recordForm">
-                        <div class="mb-4">
-                            <label class="block text-white mb-2" for="sport">ชนิดกีฬา</label>
-                            <select name="sport" id="sport" class="w-full p-2 rounded bg-white/80 focus:outline-none" required>
-                                <option value="ฟุตบอล">ฟุตบอล</option>
-                                <option value="บาสเกตบอล">บาสเกตบอล</option>
-                                <option value="วอลเลย์บอล">วอลเลย์บอล</option>
-                                <option value="เปตอง">เปตอง</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-white mb-2" for="round">รอบการแข่งขัน</label>
-                            <select name="round" id="round" class="w-full p-2 rounded bg-white/80 focus:outline-none" required>
-                                <option value="รอบแรก">รอบแรก</option>
-                                <option value="รอบรองชนะเลิศ">รอบรองชนะเลิศ</option>
-                                <option value="รอบชิงชนะเลิศ">รอบชิงชนะเลิศ</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full bg-yellow-500 text-blue-900 font-bold py-3 px-4 rounded-lg hover:bg-yellow-400 transition duration-300">
-                            บันทึกผล
-                        </button>
-                    </form>
-                </div>
-                `;
-                container.html(formHtml);
-
-                $('#recordForm').on('submit', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'กำลังบันทึกผล...',
-                        allowOutsideClick: false,
-                        didOpen: () => Swal.showLoading()
-                    });
-
-                    const formData = new FormData(this);
-                    formData.append('action', 'recordResult');
-
-                    fetch(GAS_URL, { method: 'POST', body: formData })
-                        .then(response => response.json())
-                        .then(data => {
-                            if(data.success) {
-                                Swal.fire('สำเร็จ!', 'บันทึกผลเรียบร้อย', 'success');
-                                $('#recordForm')[0].reset();
-                                fetchDashboardData(); // Refresh dashboard after recording
-                            } else {
-                                Swal.fire('ผิดพลาด!', data.message || 'ไม่สามารถบันทึกได้', 'error');
-                            }
-                        });
-                });
-            }
-
             // --- INITIALIZATION ---
-            function initializeApp() {
-                // Show/hide admin elements
-                if (IS_ADMIN) {
-                    $('.admin-only').show();
+            // Move shared UI to the active panel initially
+            document.getElementById('merge-tool').appendChild(sharedUI);
+            updateActionButtonText();
+            
+            // --- HELPER FUNCTIONS ---
+            /**
+             * Triggers a browser download for a file created in memory.
+             * @param {Uint8Array} bytes - The file content as a byte array.
+             * @param {string} fileName - The desired name for the downloaded file.
+             */
+            const triggerDownload = (bytes, fileName) => {
+                const blob = new Blob([bytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            /**
+             * Displays status messages to the user.
+             * @param {string} type - 'processing', 'success', or 'error'.
+             * @param {string} message - The message to display.
+             */
+            const showStatus = (type, message) => {
+                statusDiv.className = ''; // Reset classes
+                statusDiv.classList.add(type);
+                
+                let content = '';
+                if (type === 'processing') {
+                    content = `<div class="loader"></div> ${message}`;
+                } else {
+                    content = message;
                 }
+                statusDiv.innerHTML = content;
+                statusDiv.classList.remove('hidden');
+            };
 
-                // Clone nav links for mobile menu
-                $('.nav-link').clone().appendTo('#mobile-menu').addClass('block p-4');
+            /** Hides the status message area. */
+            const hideStatus = () => {
+                statusDiv.classList.add('hidden');
+            };
+            
+            /** Resets the UI to its initial state. */
+            const resetUI = () => {
+                selectedFiles = [];
+                fileList.innerHTML = '';
+                fileInput.value = ''; // Reset file input
+                actionBtn.disabled = true;
+                pageRangesInput.value = '';
+                hideStatus();
+            };
 
-                // Handle initial page load based on URL hash
-                const initialPage = window.location.hash ? window.location.hash.substring(1) : 'dashboard';
-                showPage(initialPage);
-            }
+            /** Updates the text of the main action button based on the current tool. */
+            const updateActionButtonText = () => {
+                switch(currentTool) {
+                    case 'merge':
+                        actionBtn.textContent = 'รวมไฟล์ PDF';
+                        break;
+                    case 'split':
+                        actionBtn.textContent = 'แยกไฟล์ PDF';
+                        break;
+                    case 'compress':
+                        actionBtn.textContent = 'บีบอัดไฟล์';
+                        break;
+                }
+            };
 
-            initializeApp();
+            /** Updates the file list display. */
+            const renderFileList = () => {
+                fileList.innerHTML = '';
+                selectedFiles.forEach(file => {
+                    const li = document.createElement('li');
+                    const fileSize = (file.size / 1024 / 1024).toFixed(2); // in MB
+                    li.textContent = `${file.name} (${fileSize} MB)`;
+                    fileList.appendChild(li);
+                });
+                actionBtn.disabled = selectedFiles.length === 0;
+            };
+
+            /**
+             * Handles file selection from both click and drag-and-drop.
+             * @param {FileList} files - The list of files from the event.
+             */
+            const handleFileSelect = (files) => {
+                hideStatus();
+                // For split and compress, only allow one file
+                if (currentTool !== 'merge' && files.length > 1) {
+                    showStatus('error', 'เครื่องมือนี้รองรับเพียง 1 ไฟล์เท่านั้น');
+                    return;
+                }
+                
+                selectedFiles = Array.from(files);
+                renderFileList();
+            };
+
+            // --- TOOL-SPECIFIC LOGIC ---
+
+            /** 1. MERGE PDF LOGIC */
+            const mergePdfs = async () => {
+                if (selectedFiles.length < 2) {
+                    showStatus('error', 'กรุณาเลือกไฟล์ PDF อย่างน้อย 2 ไฟล์');
+                    return;
+                }
+                showStatus('processing', 'กำลังรวมไฟล์...');
+
+                try {
+                    const mergedPdf = await PDFDocument.create();
+                    for (const file of selectedFiles) {
+                        const arrayBuffer = await file.arrayBuffer();
+                        const pdf = await PDFDocument.load(arrayBuffer);
+                        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                        copiedPages.forEach(page => mergedPdf.addPage(page));
+                    }
+
+                    const mergedPdfBytes = await mergedPdf.save();
+                    triggerDownload(mergedPdfBytes, 'merged.pdf');
+                    showStatus('success', 'รวมไฟล์สำเร็จ!');
+                } catch (err) {
+                    console.error(err);
+                    showStatus('error', 'เกิดข้อผิดพลาดในการรวมไฟล์');
+                }
+            };
+            
+            /** 2. SPLIT PDF LOGIC */
+            /**
+             * Parses a page range string (e.g., "1-3, 5") into an array of zero-based page indices.
+             * @param {string} rangeString - The user-provided string.
+             * @param {number} maxPage - The total number of pages in the document.
+             * @returns {number[]} An array of page indices.
+             */
+            const parsePageRanges = (rangeString, maxPage) => {
+                const pages = new Set();
+                const parts = rangeString.split(',');
+                
+                for (const part of parts) {
+                    const trimmedPart = part.trim();
+                    if (trimmedPart.includes('-')) {
+                        const [start, end] = trimmedPart.split('-').map(num => parseInt(num.trim(), 10));
+                        if (isNaN(start) || isNaN(end) || start > end || start < 1 || end > maxPage) {
+                            throw new Error(`ช่วงของหน้าไม่ถูกต้อง: "${trimmedPart}"`);
+                        }
+                        for (let i = start; i <= end; i++) {
+                            pages.add(i - 1); // pdf-lib is 0-indexed
+                        }
+                    } else {
+                        const pageNum = parseInt(trimmedPart, 10);
+                        if (isNaN(pageNum) || pageNum < 1 || pageNum > maxPage) {
+                           throw new Error(`หมายเลขหน้าไม่ถูกต้อง: "${trimmedPart}"`);
+                        }
+                        pages.add(pageNum - 1); // pdf-lib is 0-indexed
+                    }
+                }
+                return Array.from(pages).sort((a, b) => a - b);
+            };
+
+            const splitPdf = async () => {
+                if (selectedFiles.length !== 1) {
+                    showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์');
+                    return;
+                }
+                const rangeString = pageRangesInput.value;
+                if (!rangeString) {
+                    showStatus('error', 'กรุณากรอกหน้าที่ต้องการ');
+                    return;
+                }
+                showStatus('processing', 'กำลังแยกหน้า...');
+
+                try {
+                    const file = selectedFiles[0];
+                    const arrayBuffer = await file.arrayBuffer();
+                    const existingPdf = await PDFDocument.load(arrayBuffer);
+                    
+                    const pageIndices = parsePageRanges(rangeString, existingPdf.getPageCount());
+                    
+                    if(pageIndices.length === 0) {
+                        showStatus('error', 'ไม่พบหน้าที่ต้องการตามรูปแบบที่กรอก');
+                        return;
+                    }
+                    
+                    const newPdf = await PDFDocument.create();
+                    const copiedPages = await newPdf.copyPages(existingPdf, pageIndices);
+                    copiedPages.forEach(page => newPdf.addPage(page));
+
+                    const newPdfBytes = await newPdf.save();
+                    triggerDownload(newPdfBytes, 'split.pdf');
+                    showStatus('success', 'แยกหน้าสำเร็จ!');
+                } catch (err) {
+                    console.error(err);
+                    showStatus('error', err.message || 'เกิดข้อผิดพลาดในการแยกหน้า');
+                }
+            };
+            
+            /** 3. COMPRESS PDF LOGIC */
+            const compressPdf = async () => {
+                if (selectedFiles.length !== 1) {
+                    showStatus('error', 'กรุณาเลือกไฟล์ PDF 1 ไฟล์');
+                    return;
+                }
+                showStatus('processing', 'กำลังบีบอัดไฟล์...');
+
+                try {
+                    const file = selectedFiles[0];
+                    const originalSize = file.size;
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+                    // Re-saving with object streams can reduce file size.
+                    const compressedBytes = await pdfDoc.save({ useObjectStreams: true });
+                    const newSize = compressedBytes.length;
+
+                    triggerDownload(compressedBytes, 'compressed.pdf');
+
+                    const reduction = (((originalSize - newSize) / originalSize) * 100).toFixed(2);
+                    showStatus('success', `บีบอัดสำเร็จ! ลดขนาดลง ${reduction}%`);
+
+                } catch (err) {
+                    console.error(err);
+                    showStatus('error', 'เกิดข้อผิดพลาดในการบีบอัดไฟล์');
+                }
+            };
+
+            // --- EVENT LISTENERS ---
+
+            // Navigation switching
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Switch tool
+                    currentTool = button.dataset.tool;
+                    resetUI();
+                    updateActionButtonText();
+                    
+                    // Show correct panel and move shared UI into it
+                    toolPanels.forEach(panel => panel.classList.add('hidden'));
+                    const activePanel = document.getElementById(`${currentTool}-tool`);
+                    activePanel.classList.remove('hidden');
+                    activePanel.appendChild(sharedUI);
+                    
+                    // Update file input based on tool
+                    fileInput.multiple = (currentTool === 'merge');
+                });
+            });
+
+            // Upload Area listeners
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFileSelect(e.dataTransfer.files);
+            });
+            fileInput.addEventListener('change', (e) => {
+                handleFileSelect(e.target.files);
+            });
+
+            // Action Button listener
+            actionBtn.addEventListener('click', () => {
+                switch (currentTool) {
+                    case 'merge':
+                        mergePdfs();
+                        break;
+                    case 'split':
+                        splitPdf();
+                        break;
+                    case 'compress':
+                        compressPdf();
+                        break;
+                }
+            });
         });
     </script>
 </body>
