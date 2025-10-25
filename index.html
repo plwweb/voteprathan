@@ -15,7 +15,7 @@
     <div class="overlay"></div>
     <div class="content">
       <div class="emblem">
-        <img src="images/queen_sirikit.webp" alt="Queen Emblem">
+        <img src="https://img2.pic.in.th/pic/IMG_3771.webp" alt="Queen Emblem">
       </div>
       <h1>น้อมส่งเสด็จสู่สวรรคาลัย</h1>
       <h2>สมเด็จพระนางเจ้าสิริกิติ์<br>พระบรมราชินีนาถ พระบรมราชชนนีพันปีหลวง</h2>
@@ -26,9 +26,13 @@
 
   <script>
     function enterSite() {
+      // 1. ตั้งค่า "ตั๋ว" ว่าอนุญาตให้เข้าหน้าแอปได้
+      sessionStorage.setItem('allowAppAccess', 'true');
+
       document.body.classList.add('fade-out');
       setTimeout(() => {
-        window.location.href = "app.html"; // ลิงก์ไปยังหน้าหลัก
+        // 2. ไปยังหน้า app.html
+        window.location.href = "app.html"; 
       }, 1000);
     }
   </script>
