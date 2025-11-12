@@ -1,0 +1,3196 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ครูนิวดอทคอม - ข่าวการศึกษา เรียกบรรจุครู สอบครูผู้ช่วย</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="รวมข่าวการศึกษา เรียกบรรจุครูผู้ช่วย เปิดสอบบรรจุพนักงานราชการ ผลงานครู เผยแพร่ผลงาน">
+  <meta name="keywords" content="ครูนิวดอทคอม, ข่าวการศึกษา, เรียกบรรจุ, ครูผู้ช่วย, สอบบรรจุ, พนักงานราชการ, ผลงานครู">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="ครูนิวดอทคอม - ข่าวการศึกษา เรียกบรรจุครู">
+  <meta property="og:description" content="รวมข่าวการศึกษา เรียกบรรจุครูผู้ช่วย เปิดสอบบรรจุพนักงานราชการ">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KRUNEWS">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #dc2626;
+      --accent-color: #059669;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --bg-light: #f8fafc;
+      --bg-white: #ffffff;
+      --border-color: #e5e7eb;
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-red: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-green: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      background-color: var(--bg-light);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    .header {
+      background: var(--bg-white);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-top {
+      background: var(--gradient-blue);
+      color: white;
+      padding: 8px 0;
+      font-size: 0.9rem;
+    }
+
+    .header-top .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-main {
+      padding: 20px 0;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--gradient-blue);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .logo-text h1 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+
+    .logo-text p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .search-form {
+      display: flex;
+      border: 2px solid var(--border-color);
+      border-radius: 25px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .search-form:focus-within {
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .search-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .search-btn:hover {
+      background: #1d4ed8;
+    }
+
+    /* Navigation */
+    .navigation {
+      background: var(--bg-white);
+      border-top: 1px solid var(--border-color);
+      padding: 0;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .nav-menu::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-item {
+      white-space: nowrap;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+      background: var(--bg-light);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: var(--gradient-blue);
+      padding: 60px 0;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Hero Slideshow */
+    .hero-slideshow {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-gradient);
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      max-height: 60vh;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .slide-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+      color: white;
+      z-index: 2;
+    }
+
+    .slide-content h2 {
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.2s both;
+    }
+
+    .slide-content p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.4s both;
+    }
+
+    .slide-btn,
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+      color: white;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      animation: slideInUp 0.8s ease-out 0.6s both;
+      border: none;
+      cursor: pointer;
+    }
+
+    .slide-btn:hover,
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      background: linear-gradient(135deg, #1d4ed8, var(--primary-color));
+    }
+
+    /* Navigation Arrows */
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 3;
+      font-size: 1.2rem;
+    }
+
+    .slide-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slide-nav.prev {
+      left: 20px;
+    }
+
+    .slide-nav.next {
+      right: 20px;
+    }
+
+    /* Dots Indicator */
+    .slide-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot.active {
+      background: white;
+      border-color: white;
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Progress Bar */
+    .slide-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 3;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), #1d4ed8);
+      width: 0%;
+      transition: width linear;
+    }
+
+    /* Slide Animations */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Touch/Swipe Support */
+    .slideshow-container {
+      touch-action: pan-y;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 40px 0;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    /* News Cards */
+    .news-section {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--primary-color);
+      display: inline-block;
+    }
+
+    .news-grid {
+      display: grid;
+      gap: 25px;
+    }
+
+    .news-card {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .news-image {
+      width: 120px;
+      height: 80px;
+      border-radius: 8px;
+      background: var(--bg-light);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .news-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .news-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+
+    .news-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .news-excerpt {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .widget {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .widget-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .popular-news {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .popular-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .popular-item:hover {
+      background: var(--bg-light);
+    }
+
+    .popular-number {
+      width: 30px;
+      height: 30px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .popular-content h4 {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--text-dark);
+    }
+
+    /* Categories */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .category-tag {
+      background: var(--bg-light);
+      color: var(--text-dark);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .category-tag:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #374151;
+      padding-top: 20px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-links a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.1);
+    }
+
+    /* Date Info */
+    .date-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Improvements for better mobile experience */
+    @media (max-width: 640px) {
+      .header-top {
+        padding: 6px 0;
+        font-size: 0.8rem;
+      }
+
+      .social-links {
+        gap: 5px;
+      }
+
+      .social-links a {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .logo-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo-text p {
+        font-size: 0.8rem;
+      }
+
+      .search-container {
+        margin: 10px 0;
+      }
+
+      .search-input {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+
+      .search-btn {
+        padding: 10px 15px;
+      }
+    }
+
+    /* Enhanced animations */
+    .news-card {
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Loading state improvements */
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Better focus indicators */
+    .nav-link:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    /* Smooth transitions for all interactive elements */
+    * {
+      transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Print styles */
+    @media print {
+
+      .header-top,
+      .navigation,
+      .hero,
+      .sidebar,
+      .footer,
+      #back-to-top {
+        display: none;
+      }
+
+      .news-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-white);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .news-card {
+        flex-direction: column;
+      }
+
+      .news-image {
+        width: 100%;
+        height: 150px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+
+      .hero {
+        padding: 40px 0;
+      }
+
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+
+      .news-section,
+      .widget {
+        padding: 20px;
+      }
+    }
+
+    /* Hero Slideshow */
+    .hero-slideshow {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-gradient);
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      max-height: 60vh;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .slide-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+      color: white;
+      z-index: 2;
+    }
+
+    .slide-content h2 {
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.2s both;
+    }
+
+    .slide-content p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.4s both;
+    }
+
+    .slide-btn,
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+      color: white;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      animation: slideInUp 0.8s ease-out 0.6s both;
+      border: none;
+      cursor: pointer;
+    }
+
+    .slide-btn:hover,
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      background: linear-gradient(135deg, #1d4ed8, var(--primary-color));
+    }
+
+    /* Navigation Arrows */
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 3;
+      font-size: 1.2rem;
+    }
+
+    .slide-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slide-nav.prev {
+      left: 20px;
+    }
+
+    .slide-nav.next {
+      right: 20px;
+    }
+
+    /* Dots Indicator */
+    .slide-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot.active {
+      background: white;
+      border-color: white;
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Progress Bar */
+    .slide-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 3;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), #1d4ed8);
+      width: 0%;
+      transition: width linear;
+    }
+
+    /* Slide Animations */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Touch/Swipe Support */
+    .slideshow-container {
+      touch-action: pan-y;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 40px 0;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    /* News Cards */
+    .news-section {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--primary-color);
+      display: inline-block;
+    }
+
+    .news-grid {
+      display: grid;
+      gap: 25px;
+    }
+
+    .news-card {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .news-image {
+      width: 120px;
+      height: 80px;
+      border-radius: 8px;
+      background: var(--bg-light);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .news-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .news-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+
+    .news-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .news-excerpt {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .widget {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .widget-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .popular-news {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .popular-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .popular-item:hover {
+      background: var(--bg-light);
+    }
+
+    .popular-number {
+      width: 30px;
+      height: 30px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .popular-content h4 {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--text-dark);
+    }
+
+    /* Categories */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .category-tag {
+      background: var(--bg-light);
+      color: var(--text-dark);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .category-tag:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #374151;
+      padding-top: 20px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-links a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.1);
+    }
+
+    /* Date Info */
+    .date-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Improvements for better mobile experience */
+    @media (max-width: 640px) {
+      .header-top {
+        padding: 6px 0;
+        font-size: 0.8rem;
+      }
+
+      .social-links {
+        gap: 5px;
+      }
+
+      .social-links a {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .logo-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo-text p {
+        font-size: 0.8rem;
+      }
+
+      .search-container {
+        margin: 10px 0;
+      }
+
+      .search-input {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+
+      .search-btn {
+        padding: 10px 15px;
+      }
+    }
+
+    /* Enhanced animations */
+    .news-card {
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Loading state improvements */
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Better focus indicators */
+    .nav-link:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    /* Smooth transitions for all interactive elements */
+    * {
+      transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Print styles */
+    @media print {
+
+      .header-top,
+      .navigation,
+      .hero,
+      .sidebar,
+      .footer,
+      #back-to-top {
+        display: none;
+      }
+
+      .news-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-white);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .news-card {
+        flex-direction: column;
+      }
+
+      .news-image {
+        width: 100%;
+        height: 150px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+
+      .hero {
+        padding: 40px 0;
+      }
+
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+
+      .news-section,
+      .widget {
+        padding: 20px;
+      }
+    }
+
+    /* Hero Slideshow */
+    .hero-slideshow {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-gradient);
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      max-height: 60vh;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .slide-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+      color: white;
+      z-index: 2;
+    }
+
+    .slide-content h2 {
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.2s both;
+    }
+
+    .slide-content p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.4s both;
+    }
+
+    .slide-btn,
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+      color: white;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      animation: slideInUp 0.8s ease-out 0.6s both;
+      border: none;
+      cursor: pointer;
+    }
+
+    .slide-btn:hover,
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      background: linear-gradient(135deg, #1d4ed8, var(--primary-color));
+    }
+
+    /* Navigation Arrows */
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 3;
+      font-size: 1.2rem;
+    }
+
+    .slide-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slide-nav.prev {
+      left: 20px;
+    }
+
+    .slide-nav.next {
+      right: 20px;
+    }
+
+    /* Dots Indicator */
+    .slide-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot.active {
+      background: white;
+      border-color: white;
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Progress Bar */
+    .slide-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 3;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), #1d4ed8);
+      width: 0%;
+      transition: width linear;
+    }
+
+    /* Slide Animations */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Touch/Swipe Support */
+    .slideshow-container {
+      touch-action: pan-y;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 40px 0;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    /* News Cards */
+    .news-section {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--primary-color);
+      display: inline-block;
+    }
+
+    .news-grid {
+      display: grid;
+      gap: 25px;
+    }
+
+    .news-card {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .news-image {
+      width: 120px;
+      height: 80px;
+      border-radius: 8px;
+      background: var(--bg-light);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .news-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .news-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+
+    .news-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .news-excerpt {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .widget {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .widget-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary-color);
+    }
+
+    .popular-news {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .popular-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .popular-item:hover {
+      background: var(--bg-light);
+    }
+
+    .popular-number {
+      width: 30px;
+      height: 30px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .popular-content h4 {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: var(--text-dark);
+    }
+
+    /* Categories */
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .category-tag {
+      background: var(--bg-light);
+      color: var(--text-dark);
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .category-tag:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-dark);
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #374151;
+      padding-top: 20px;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-links a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.1);
+    }
+
+    /* Date Info */
+    .date-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Improvements for better mobile experience */
+    @media (max-width: 640px) {
+      .header-top {
+        padding: 6px 0;
+        font-size: 0.8rem;
+      }
+
+      .social-links {
+        gap: 5px;
+      }
+
+      .social-links a {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .logo-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo-text p {
+        font-size: 0.8rem;
+      }
+
+      .search-container {
+        margin: 10px 0;
+      }
+
+      .search-input {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+
+      .search-btn {
+        padding: 10px 15px;
+      }
+    }
+
+    /* Enhanced animations */
+    .news-card {
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .news-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Loading state improvements */
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Better focus indicators */
+    .nav-link:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    /* Smooth transitions for all interactive elements */
+    * {
+      transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Print styles */
+    @media print {
+
+      .header-top,
+      .navigation,
+      .hero,
+      .sidebar,
+      .footer,
+      #back-to-top {
+        display: none;
+      }
+
+      .news-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-white);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .news-card {
+        flex-direction: column;
+      }
+
+      .news-image {
+        width: 100%;
+        height: 150px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+
+      .hero {
+        padding: 40px 0;
+      }
+
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+
+      .news-section,
+      .widget {
+        padding: 20px;
+      }
+    }
+
+    /* Hero Slideshow */
+    .hero-slideshow {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-gradient);
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      max-height: 60vh;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .slide-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+      color: white;
+      z-index: 2;
+    }
+
+    .slide-content h2 {
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.2s both;
+    }
+
+    .slide-content p {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      animation: slideInUp 0.8s ease-out 0.4s both;
+    }
+
+    .slide-btn,
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+      color: white;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      animation: slideInUp 0.8s ease-out 0.6s both;
+      border: none;
+      cursor: pointer;
+    }
+
+    .slide-btn:hover,
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+      background: linear-gradient(135deg, #1d4ed8, var(--primary-color));
+    }
+
+    /* Navigation Arrows */
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 3;
+      font-size: 1.2rem;
+    }
+
+    .slide-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .slide-nav.prev {
+      left: 20px;
+    }
+
+    .slide-nav.next {
+      right: 20px;
+    }
+
+    /* Dots Indicator */
+    .slide-dots {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 3;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .dot.active {
+      background: white;
+      border-color: white;
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    /* Progress Bar */
+    .slide-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 3;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), #1d4ed8);
+      width: 0%;
+      transition: width linear;
+    }
+
+    /* Slide Animations */
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Touch/Swipe Support */
+    .slideshow-container {
+      touch-action: pan-y;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+
+      .slide,
+      .slide-content h2,
+      .slide-content p,
+      .slide-btn,
+      .slide-nav,
+      .dot {
+        animation: none;
+        transition: none;
+      }
+    }
+
+    /* Loading State */
+    .slide img[data-src] {
+      background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+      background-size: 400% 400%;
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="sr-only">ข้ามไปยังเนื้อหาหลัก</a>
+
+  <!-- Header -->
+  <header class="header">
+    <!-- Header Top Bar -->
+    <div class="header-top">
+      <div class="container">
+        <div class="date-info">
+          <i class="fas fa-calendar-alt"></i>
+          <span id="current-date">วันจันทร์ที่ 07 กรกฎาคม พ.ศ. 2568</span>
+        </div>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Line"><i class="fab fa-line"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Header -->
+    <div class="header-main">
+      <div class="container">
+        <div class="header-content">
+          <!-- Logo -->
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="logo-text">
+              <h1>KRU<span style="color: var(--secondary-color);">NEWS</span></h1>
+              <p>เปิดสอบครู เรียกบรรจุครู ดูเว็บครูนิว</p>
+            </div>
+          </div>
+
+          <!-- Search -->
+          <div class="search-container">
+            <form class="search-form" action="#" method="get">
+              <input type="text" class="search-input" placeholder="ค้นหาข่าว..." name="q">
+              <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="เปิด/ปิดเมนู">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navigation">
+      <div class="container">
+        <ul class="nav-menu" id="nav-menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link active">หน้าหลัก</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">ข่าวการศึกษา</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">สอบครูผู้ช่วย</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">เรียกบรรจุ</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">พนักงานราชการ</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">อัตราจ้าง</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">งานราชการ</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">แนวข้อสอบ</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">เว็บบอร์ด</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Slideshow Section -->
+  <section class="hero-slideshow">
+    <div class="slideshow-container">
+      <!-- Slide 1 -->
+      <div class="slide active">
+        <img data-src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="สพฐ. เปิดสอบครูผู้ช่วย 2568" class="slide-image">
+        <div class="slide-content">
+          <div class="container">
+            <h2>สพฐ. เปิดสอบครูผู้ช่วย 2568</h2>
+            <p>เตรียมเปิดสอบครูผู้ช่วย ปี 2568 สมัครออนไลน์เท่านั้น ค่าธรรมเนียม 500 บาท</p>
+            <a href="#" class="slide-btn">อ่านรายละเอียด</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide">
+        <img data-src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="เรียกบรรจุครูใหม่" class="slide-image">
+        <div class="slide-content">
+          <div class="container">
+            <h2>เรียกบรรจุครูใหม่</h2>
+            <p>ติดตามประกาศการเรียกบรรจุครูผู้ช่วยและข้อมูลการรายงานตัว</p>
+            <a href="#" class="slide-btn">ดูรายการเรียกบรรจุ</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide">
+        <img data-src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="พนักงานราชการ เปิดสอบ" class="slide-image">
+        <div class="slide-content">
+          <div class="container">
+            <h2>พนักงานราชการ เปิดสอบ</h2>
+            <p>ภาครัฐการและกรมการปกครอง เปิดรับสมัครตำแหน่งใหม่</p>
+            <a href="#" class="slide-btn">สมัครตอนนี้</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Dots -->
+      <div class="slide-dots">
+        <button class="dot active" data-slide="0" aria-label="ไปยังสไลด์ที่ 1"></button>
+        <button class="dot" data-slide="1" aria-label="ไปยังสไลด์ที่ 2"></button>
+        <button class="dot" data-slide="2" aria-label="ไปยังสไลด์ที่ 3"></button>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <button class="slide-nav prev" aria-label="สไลด์ก่อนหน้า">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="slide-nav next" aria-label="สไลด์ถัดไป">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <!-- Progress Bar -->
+      <div class="slide-progress">
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content" id="main-content">
+    <div class="container">
+      <div class="content-grid">
+        <!-- Main News Section -->
+        <section class="news-section">
+          <h2 class="section-title">ข่าวล่าสุด</h2>
+          <div class="news-grid">
+            <a href="#" class="news-card">
+              <div class="news-image">
+                <img src="img/1.webp" alt="ข่าว">
+              </div>
+              <div class="news-content">
+                <h3>สพฐ. ออกหนังสือด่วนที่สุด เตรียมเปิดสอบครูผู้ช่วย ปี 2568</h3>
+                <div class="news-meta">
+                  <span><i class="fas fa-calendar"></i> 25 ก.ค. 2568</span>
+                  <span><i class="fas fa-eye"></i> 14,015</span>
+                </div>
+                <p class="news-excerpt">สพฐ ออกหนังสือด่วนที่สุด เตรียมเปิดสอบครูผู้ช่วย ปี 2568 สมัครออนไลน์เท่านั้น ค่าธรรมเนียม 500 บาท</p>
+              </div>
+            </a>
+
+            <a href="#" class="news-card">
+              <div class="news-image">
+                <img src="img/2.webp" alt="ข่าว">
+              </div>
+              <div class="news-content">
+                <h3>รวมลิงก์ ประกาศรับสมัครคัดเลือก ผอ. - รองผอ.สถานศึกษา สังกัด สพฐ.</h3>
+                <div class="news-meta">
+                  <span><i class="fas fa-calendar"></i> 25 ก.ค. 2568</span>
+                  <span><i class="fas fa-eye"></i> 50</span>
+                </div>
+                <p class="news-excerpt">รวมลิงก์ ประกาศรับสมัครคัดเลือก ผอ รองผอ สถานศึกษา สังกัด สพฐ ปี พ ศ 2568 รับสมัคร 1-7 ก.ค.2568</p>
+              </div>
+            </a>
+
+            <a href="#" class="news-card">
+              <div class="news-image">
+                <img src="img/3.webp" alt="ข่าว">
+              </div>
+              <div class="news-content">
+                <h3>สำนักงาน ก.พ.ร. เปิดสอบบรรจุเข้ารับราชการ 17 อัตรา</h3>
+                <div class="news-meta">
+                  <span><i class="fas fa-calendar"></i> 24 ก.ค. 2568</span>
+                  <span><i class="fas fa-eye"></i> 825</span>
+                </div>
+                <p class="news-excerpt">สำนักงาน ก.พ.ร. เปิดสอบบรรจุเข้ารับราชการ วุฒิปริญญาตรีทุกสาขา - ปริญญาโท ทุกสาขา จำนวน 17 อัตรา</p>
+              </div>
+            </a>
+
+            <a href="#" class="news-card">
+              <div class="news-image">
+                <img src="img/4.webp" alt="ข่าว">
+              </div>
+              <div class="news-content">
+                <h3>จี้ รมว.ศึกษาคนใหม่จัดเจ้าหน้าที่ "การเงิน-ธุรการ" ให้โรงเรียน</h3>
+                <div class="news-meta">
+                  <span><i class="fas fa-calendar"></i> 23 ก.ค. 2568</span>
+                  <span><i class="fas fa-eye"></i> 754</span>
+                </div>
+                <p class="news-excerpt">จี้ รมว.ศึกษาคนใหม่จัดเจ้าหน้าที่ "การเงิน-ธุรการ" ให้ โรงเรียน เมื่อวันที่ 23 มิ.ย.</p>
+              </div>
+            </a>
+
+            <a href="#" class="news-card">
+              <div class="news-image">
+                <img src="img/5.webp" alt="ข่าว">
+              </div>
+              <div class="news-content">
+                <h3>สพฐ.เปิดช่อง! สมัครสอบครูผู้ช่วย 2568 สาขาขาดแคลน</h3>
+                <div class="news-meta">
+                  <span><i class="fas fa-calendar"></i> 22 ก.ค. 2568</span>
+                  <span><i class="fas fa-eye"></i> 13,774</span>
+                </div>
+                <p class="news-excerpt">สพฐ เปิดสอบครูผู้ช่วย 2568 กลุ่มวิชาขาดแคลน ไม่ต้องมีใบประกอบวิชาชีพครู เปิดรับ 9-15 ก.ค. นี้</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <!-- Popular News Widget -->
+          <div class="widget">
+            <h3 class="widget-title">🏆 ข่าวยอดนิยม</h3>
+            <div class="popular-news">
+              <a href="#" class="popular-item">
+                <div class="popular-number">1</div>
+                <div class="popular-content">
+                  <h4>สพฐ. เปิดรับสมัครรองผู้อำนวยการ สพท. 13 อัตรา ทั่วประเทศ!</h4>
+                </div>
+              </a>
+              <a href="#" class="popular-item">
+                <div class="popular-number">2</div>
+                <div class="popular-content">
+                  <h4>รวมลิงก์ ประกาศรับสมัครคัดเลือก ผอ. - รองผอ.สถานศึกษา</h4>
+                </div>
+              </a>
+              <a href="#" class="popular-item">
+                <div class="popular-number">3</div>
+                <div class="popular-content">
+                  <h4>สำนักงาน ก.พ.ร. เปิดสอบบรรจุเข้ารับราชการ 17 อัตรา</h4>
+                </div>
+              </a>
+              <a href="#" class="popular-item">
+                <div class="popular-number">4</div>
+                <div class="popular-content">
+                  <h4>จี้ รมว.ศึกษาคนใหม่จัดเจ้าหน้าที่ "การเงิน-ธุรการ"</h4>
+                </div>
+              </a>
+              <a href="#" class="popular-item">
+                <div class="popular-number">5</div>
+                <div class="popular-content">
+                  <h4>สพฐ. ออกหนังสือด่วนที่สุด เตรียมเปิดสอบครูผู้ช่วย ปี 2568</h4>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Categories Widget -->
+          <div class="widget">
+            <h3 class="widget-title">📂 หมวดหมู่ข่าว</h3>
+            <div class="categories">
+              <a href="#" class="category-tag">สอบครูผู้ช่วย 2568</a>
+              <a href="#" class="category-tag">เรียกบรรจุ</a>
+              <a href="#" class="category-tag">พนักงานราชการ</a>
+              <a href="#" class="category-tag">อัตราจ้าง</a>
+              <a href="#" class="category-tag">ย้ายครู TRS</a>
+              <a href="#" class="category-tag">งานราชการ</a>
+              <a href="#" class="category-tag">แนวข้อสอบ</a>
+            </div>
+          </div>
+
+          <!-- Quick Links Widget -->
+          <div class="widget">
+            <h3 class="widget-title">🔗 ลิงก์ด่วน</h3>
+            <ul class="footer-links">
+              <li><a href="#">ระบบ TRS ย้ายครู</a></li>
+              <li><a href="#">ตรวจผลสอบครู</a></li>
+              <li><a href="#">ปฏิทินการศึกษา</a></li>
+              <li><a href="#">แบบฟอร์มสำคัญ</a></li>
+              <li><a href="#">ข้อมูลเงินเดือนครู</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Additional Sections -->
+      <section class="news-section">
+        <h2 class="section-title">📋 หมวดหมู่ข่าวสำคัญ</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
+          <div class="widget">
+            <h3 class="widget-title" style="color: var(--secondary-color);">🎓 สอบครูผู้ช่วย - เรียกบรรจุ</h3>
+            <div class="news-grid" style="gap: 15px;">
+              <a href="#" class="news-card" style="padding: 15px;">
+                <div class="news-content">
+                  <h3 style="font-size: 1rem;">5 ครูผู้ช่วย เตรียมตัว! สพม. พังงา ภูเก็ต ระนอง เรียกรายงานตัวแล้ว</h3>
+                  <div class="news-meta">
+                    <span><i class="fas fa-calendar"></i> 13 ก.ค. 2568</span>
+                    <span><i class="fas fa-eye"></i> 820</span>
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="news-card" style="padding: 15px;">
+                <div class="news-content">
+                  <h3 style="font-size: 1rem;">สพป.ศรีสะเกษ เขต 3 เผยรายละเอียดบัญชีเรียกบรรจุครูผู้ช่วย</h3>
+                  <div class="news-meta">
+                    <span><i class="fas fa-calendar"></i> 09 ก.ค. 2568</span>
+                    <span><i class="fas fa-eye"></i> 1,382</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="widget">
+            <h3 class="widget-title" style="color: var(--accent-color);">💼 พนักงานราชการครู</h3>
+            <div class="news-grid" style="gap: 15px;">
+              <a href="#" class="news-card" style="padding: 15px;">
+                <div class="news-content">
+                  <h3 style="font-size: 1rem;">สพป.ร้อยเอ็ด เขต 3 เปิดรับสมัครพนักงานราชการ ตำแหน่งครูผู้สอน 2 อัตรา</h3>
+                  <div class="news-meta">
+                    <span><i class="fas fa-calendar"></i> 19 ก.ค. 2568</span>
+                    <span><i class="fas fa-eye"></i> 1,847</span>
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="news-card" style="padding: 15px;">
+                <div class="news-content">
+                  <h3 style="font-size: 1rem;">สพป.สุพรรณบุรี เขต 1 เปิดรับสมัครพนักงานราชการ ตำแหน่งครูผู้สอน 5 อัตรา</h3>
+                  <div class="news-meta">
+                    <span><i class="fas fa-calendar"></i> 19 ก.ค. 2568</span>
+                    <span><i class="fas fa-eye"></i> 4,249</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="widget">
+            <h3 class="widget-title" style="color: #f59e0b;">📝 เปิดสอบงานราชการ</h3>
+            <div class="news-grid" style="gap: 15px;">
+              <a href="#" class="news-card" style="padding: 15px;">
+                <div class="news-content">
+                  <h3 style="font-size: 1rem;">กรมการปกครอง เปิดสอบพนักงานราชการ 180 อัตรา วุฒิปวส. - ป.ตรี</h3>
+                  <div class="news-meta">
+                    <span><i class="fas fa-calendar"></i> 16 ก.ค. 2568</span>
+                    <span><i class="fas fa-eye"></i> 9,630</span>
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="news-card" style="padding: 15px;">
+                <div class="news-content">
+                  <h3 style="font-size: 1rem;">กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.) รับสมัครสอบคัดเลือกเป็นพนักงาน</h3>
+                  <div class="news-meta">
+                    <span><i class="fas fa-calendar"></i> 17 ก.ค. 2568</span>
+                    <span><i class="fas fa-eye"></i> 1,661</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="logo-text">
+              <h3>KRU<span style="color: var(--secondary-color);">NEWS</span></h3>
+              <p>เปิดสอบครู เรียกบรรจุครู ดูเว็บครูนิว</p>
+            </div>
+          </div>
+          <p style="margin-top: 15px; color: #9ca3af;">
+            ศูนย์รวมข่าวการศึกษา เรียกบรรจุครู สอบครูผู้ช่วย พนักงานราชการ อัตราจ้าง และข้อมูลสำคัญสำหรับครูทุกวัน
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>เมนูหลัก</h3>
+          <ul class="footer-links">
+            <li><a href="#">หน้าหลัก</a></li>
+            <li><a href="#">ข่าวการศึกษา</a></li>
+            <li><a href="#">สอบครูผู้ช่วย</a></li>
+            <li><a href="#">เรียกบรรจุ</a></li>
+            <li><a href="#">พนักงานราชการ</a></li>
+            <li><a href="#">งานราชการ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>บริการ</h3>
+          <ul class="footer-links">
+            <li><a href="#">ระบบ TRS ย้ายครู</a></li>
+            <li><a href="#">ตรวจผลสอบครู</a></li>
+            <li><a href="#">ปฏิทินการศึกษา</a></li>
+            <li><a href="#">แบบฟอร์มสำคัญ</a></li>
+            <li><a href="#">เว็บบอร์ด</a></li>
+            <li><a href="#">แนวข้อสอบ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>ติดต่อเรา</h3>
+          <ul class="footer-links">
+            <li><a href="#">ติดต่อฝากข่าว</a></li>
+            <li><a href="#">ข้อตกลงใช้งาน</a></li>
+            <li><a href="#">แจ้งปัญหาการใช้งาน</a></li>
+            <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+          </ul>
+          <div style="margin-top: 20px;">
+            <h4 style="font-size: 1rem; margin-bottom: 10px;">ติดตามเรา</h4>
+            <div style="display: flex; gap: 10px;">
+              <a href="#" style="background: #1877f2; color: white; padding: 8px; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" style="background: #1da1f2; color: white; padding: 8px; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" style="background: #00b900; color: white; padding: 8px; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-line"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2015-2030 <strong>Krunews.com</strong> All rights reserved. | ออกแบบใหม่ด้วย Modern CSS & JavaScript</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" style="position: fixed; bottom: 20px; right: 20px; background: var(--primary-color); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; box-shadow: var(--shadow-lg); transition: all 0.3s ease; z-index: 1000; display: none;">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile Menu Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const navMenu = document.getElementById('nav-menu');
+
+      mobileMenuToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        const icon = this.querySelector('i');
+        if (navMenu.classList.contains('active')) {
+          icon.className = 'fas fa-times';
+        } else {
+          icon.className = 'fas fa-bars';
+        }
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!mobileMenuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+          navMenu.classList.remove('active');
+          mobileMenuToggle.querySelector('i').className = 'fas fa-bars';
+        }
+      });
+    });
+
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Search Form Enhancement
+    const searchForm = document.querySelector('.search-form');
+    const searchInput = document.querySelector('.search-input');
+
+    searchForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm) {
+        // You can implement actual search functionality here
+        alert('ค้นหา: ' + searchTerm);
+      }
+    });
+
+    // Update Current Date
+    function updateCurrentDate() {
+      const now = new Date();
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        calendar: 'buddhist'
+      };
+      const thaiDate = now.toLocaleDateString('th-TH', options);
+      document.getElementById('current-date').textContent = thaiDate;
+    }
+
+    updateCurrentDate();
+
+    // Hero Slideshow
+    const slideshow = {
+      container: document.querySelector('.slideshow-container'),
+      slides: document.querySelectorAll('.slide'),
+      dots: document.querySelectorAll('.dot'),
+      prevBtn: document.querySelector('.slide-nav.prev'),
+      nextBtn: document.querySelector('.slide-nav.next'),
+      progressBar: document.querySelector('.progress-bar'),
+      currentSlide: 0,
+      slideInterval: null,
+      slideDelay: 5000,
+      touchStartX: 0,
+      touchEndX: 0,
+
+      init() {
+        if (!this.container) return;
+
+        this.setupEventListeners();
+        this.setupTouchEvents();
+        this.lazyLoadImages();
+        this.startAutoPlay();
+        this.updateProgressBar();
+
+        // Accessibility
+        this.container.setAttribute('role', 'region');
+        this.container.setAttribute('aria-label', 'ภาพสไลด์ข่าวสาร');
+      },
+
+      setupEventListeners() {
+        // Navigation buttons
+        this.prevBtn?.addEventListener('click', () => this.prevSlide());
+        this.nextBtn?.addEventListener('click', () => this.nextSlide());
+
+        // Dots navigation
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToSlide(index));
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') this.prevSlide();
+          if (e.key === 'ArrowRight') this.nextSlide();
+        });
+
+        // Pause on hover
+        this.container.addEventListener('mouseenter', () => this.pauseAutoPlay());
+        this.container.addEventListener('mouseleave', () => this.startAutoPlay());
+
+        // Pause on focus
+        this.container.addEventListener('focusin', () => this.pauseAutoPlay());
+        this.container.addEventListener('focusout', () => this.startAutoPlay());
+
+        // Pause when tab is not visible
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            this.pauseAutoPlay();
+          } else {
+            this.startAutoPlay();
+          }
+        });
+      },
+
+      setupTouchEvents() {
+        this.container.addEventListener('touchstart', (e) => {
+          this.touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        this.container.addEventListener('touchend', (e) => {
+          this.touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe();
+        }, {passive: true});
+      },
+
+      handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = this.touchStartX - this.touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            this.nextSlide();
+          } else {
+            this.prevSlide();
+          }
+        }
+      },
+
+      lazyLoadImages() {
+        const imageObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              const src = img.getAttribute('data-src');
+              if (src) {
+                img.src = src;
+                img.removeAttribute('data-src');
+                img.classList.add('loaded');
+              }
+              imageObserver.unobserve(img);
+            }
+          });
+        });
+
+        // Observe all images with data-src
+        document.querySelectorAll('img[data-src]').forEach(img => {
+          imageObserver.observe(img);
+        });
+      },
+
+      goToSlide(index) {
+        // Remove active class from current slide and dot
+        this.slides[this.currentSlide]?.classList.remove('active');
+        this.dots[this.currentSlide]?.classList.remove('active');
+
+        // Update current slide
+        this.currentSlide = index;
+
+        // Add active class to new slide and dot
+        this.slides[this.currentSlide]?.classList.add('active');
+        this.dots[this.currentSlide]?.classList.add('active');
+
+        // Reset progress bar
+        this.updateProgressBar();
+
+        // Announce to screen readers
+        this.announceSlideChange();
+      },
+
+      nextSlide() {
+        const next = (this.currentSlide + 1) % this.slides.length;
+        this.goToSlide(next);
+      },
+
+      prevSlide() {
+        const prev = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+        this.goToSlide(prev);
+      },
+
+      startAutoPlay() {
+        this.pauseAutoPlay();
+        this.slideInterval = setInterval(() => {
+          this.nextSlide();
+        }, this.slideDelay);
+      },
+
+      pauseAutoPlay() {
+        if (this.slideInterval) {
+          clearInterval(this.slideInterval);
+          this.slideInterval = null;
+        }
+      },
+
+      updateProgressBar() {
+        if (!this.progressBar) return;
+
+        this.progressBar.style.width = '0%';
+
+        // Animate progress bar
+        setTimeout(() => {
+          this.progressBar.style.transitionDuration = `${this.slideDelay}ms`;
+          this.progressBar.style.width = '100%';
+        }, 50);
+      },
+
+      announceSlideChange() {
+        const slideContent = this.slides[this.currentSlide]?.querySelector('h2')?.textContent;
+        if (slideContent) {
+          const announcement = document.createElement('div');
+          announcement.setAttribute('aria-live', 'polite');
+          announcement.setAttribute('aria-atomic', 'true');
+          announcement.className = 'sr-only';
+          announcement.textContent = `สไลด์ที่ ${this.currentSlide + 1}: ${slideContent}`;
+          document.body.appendChild(announcement);
+
+          setTimeout(() => {
+            document.body.removeChild(announcement);
+          }, 1000);
+        }
+      }
+    };
+
+    // Initialize slideshow
+    slideshow.init();
+
+    // Back to Top Button
+
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    console.log('🎉 ครูนิวดอทคอม - โหลดเสร็จสิ้น! เว็บไซต์ใหม่ทันสมัยและรองรับมือถือ พร้อม Hero Slideshow ที่ทันสมัย');
+  </script>
+</body>
+
+</html>
