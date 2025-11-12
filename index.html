@@ -44,7 +44,42 @@
       --gradient-red: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       --gradient-green: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     }
+/* From Uiverse.io by satyamchaudharydev */ 
+.loader {
+  display: block;
+  --height-of-loader: 4px;
+  --loader-color: #0071e2;
+  width: 130px;
+  height: var(--height-of-loader);
+  border-radius: 30px;
+  background-color: rgba(0,0,0,0.2);
+  position: relative;
+}
 
+.loader::before {
+  content: "";
+  position: absolute;
+  background: var(--loader-color);
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  border-radius: 30px;
+  animation: moving 1s ease-in-out infinite;
+  ;
+}
+
+@keyframes moving {
+  50% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+    right: 0;
+    left: unset;
+  }
+}
     * {
       margin: 0;
       padding: 0;
